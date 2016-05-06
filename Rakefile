@@ -15,7 +15,6 @@ task :activate do
     ln_s filename, sym_link
   end
 
-  sh 'tmux source-file ~/.tmux.conf'
   sh 'vim +PlugInstall +PlugClean! +qall'
 end
 
