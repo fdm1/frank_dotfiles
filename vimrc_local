@@ -23,7 +23,7 @@ map <LocalLeader>9 :buffer 9<CR>
 " :set dictionary+=$HOME/.load_bash/.vim/dicts/sql
 
 " colors
-autocmd BufEnter colorscheme Tomorrow-Night
+:colorscheme Tomorrow-Night
 " autocmd BufEnter *.py colorscheme Tomorrow
 " autocmd BufEnter *.sql colorscheme jellybeans
 
