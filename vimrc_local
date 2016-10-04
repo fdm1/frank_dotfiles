@@ -27,6 +27,7 @@ map <LocalLeader>9 :buffer 9<CR>
 " autocmd BufEnter *.py colorscheme Tomorrow
 " autocmd BufEnter *.sql colorscheme jellybeans
 
+map <LocalLeader>h :HardTimeToggle<CR>
 set pastetoggle=<LocalLeader>[
 let g:hardtime_default_on = 1
 let g:hardtime_showmsg = 1
