@@ -4,13 +4,9 @@ The vim additions are meant to be loaded along side https://github.com/braintree
 To install:
 
 ```
-  git clone https://github.com/braintreeps/vim_dotfiles
-  cd vim_dotfiles
-  rake
-  # optional - follow vim_dotfiles README for commant-t install
+$ bash activate.sh
+```
 
-  cd ..
-  git clone https://github.com/fdm1/frank_dotfiles
-  cd frank_dotfiles
-  rake
+This will symlink all personal files to the root directory, clone braintreeps/vim_dotfiles (if needed), pull that repo,
+and activate/install everything.
 
