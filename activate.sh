@@ -33,6 +33,6 @@ fi
 # activate everything
 cmd_step "updating braintreeps/vim_dotfiles" cd vim_dotfiles && git pull origin master
 
-cmd_step "activating all the things" bash activate.sh && cd ..
+cmd_step "activating all the things" bash activate.sh && cd .. && tmux source-file ~/.tmux.conf
 
 echo "Success!"
