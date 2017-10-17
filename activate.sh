@@ -39,7 +39,7 @@ tmux_file() {
 
 get_all_dotfiles() {
 	ALL_DOTFILES=()
-	for filename in $(ls --ignore *tmux* ${DOTFILES_DIR}); do
+	for filename in $(ls ${DOTFILES_DIR} | grep -v tmux); do
 		ALL_DOTFILES+="${filename} "
 	done
 	ALL_DOTFILES+="$(tmux_file)"
