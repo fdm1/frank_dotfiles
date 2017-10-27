@@ -1,0 +1,20 @@
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[alias]
+	co = checkout
+[push]
+	default = matching
+[user]
+	username = fdm1
+	name = Frank Massi
+	email = frankmassi@gmail.com
+
+[merge]
+	tool = extMerge
+[mergetool "extMerge"]
+	cmd = bin/extMerge.sh \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+[core]
+	excludesfile = /Users/fmassi/.gitignore_global
+	editor = vim

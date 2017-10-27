@@ -2,7 +2,9 @@
 
 set -eu -o pipefail
 
-DOTFILES_DIR=$(cd "$(dirname "$0")"; pwd)/dotfiles
+ALL_DOTFILES_DIR=$(cd "$(dirname "$0")"; pwd)/dotfiles
+LOAD_PERSONAL=0
+PERSONAL_DOTFILES_DIR=${ALL_DOTFILES_DIR}/personal
 DOTFILES=()
 EXCLUDED_PATTERNS=()
 INCLUDED_PATTERNS=()
@@ -10,6 +12,7 @@ INCLUDED_PATTERNS=()
 usage() {
   cat <<EOF
 Usage: activate.sh \
+[--personal] \
 [--[no-]tmux] \
 [--[no-]vim] \
 [--[no-]psql] \
@@ -17,6 +20,7 @@ Usage: activate.sh \
 
 Set personalized dotfiles
 Arguments
+    <[personal]>  Install personal stuff (ohmyzsh, gitconfig)
     <[no-]tmux>   Include or exclude tmux-related dotfiles
     <[no-]vim>    Include or exclude vim-related dotfiles
     <[no-]psql>   Include or exclude psql-related dotfiles
@@ -39,23 +43,32 @@ tmux_file() {
 
 get_all_dotfiles() {
 	ALL_DOTFILES=()
-	for filename in $(ls ${DOTFILES_DIR} | grep -v tmux); do
+	for filename in $(ls ${ALL_DOTFILES_DIR} | grep -v tmux | grep -v personal); do
 		ALL_DOTFILES+="${filename} "
 	done
+	if [[ ${LOAD_PERSONAL} == 1 ]]; then
+		for filename in $(ls ${PERSONAL_DOTFILES_DIR} | grep -v tmux); do
+			ALL_DOTFILES+="personal/${filename} "
+		done
+	fi
 	ALL_DOTFILES+="$(tmux_file)"
 	echo ${ALL_DOTFILES}
 }
 
 
-while (( "$#" )); do
-	if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] || [[ $(echo $1 | cut -c-2) != "--" ]]; then usage; fi
 
-	if [[ $(echo $1 | cut -c-5) == "--no-" ]]; then
+while (( "$#" )); do
+  if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] || [[ $(echo $1 | cut -c-2) != "--" ]]; then usage; fi
+
+  if [[ $1 == "--personal" ]]; then
+    LOAD_PERSONAL=1
+  elif [[ $(echo $1 | cut -c-5) == "--no-" ]]; then
 		EXCLUDED_PATTERNS+="$(echo $1 | sed 's/^--no-//') "
 	else
 		INCLUDED_PATTERNS+="$(echo $1 | sed 's/^--//') "
 	fi
-	shift
+
+  shift
 done
 
 if [[ ${#INCLUDED_PATTERNS[@]} > 0 ]]; then
@@ -63,8 +76,13 @@ if [[ ${#INCLUDED_PATTERNS[@]} > 0 ]]; then
 		if [[ ${pattern} == 'tmux' ]]; then
 			DOTFILES+=" $(tmux_file)"
 		else
-			DOTFILES+=" $(ls ${DOTFILES_DIR} | grep ${pattern})"
+			DOTFILES+=" $(ls ${ALL_DOTFILES_DIR} | grep ${pattern})"
 		fi
+    if [[ ${LOAD_PERSONAL} == 1 ]]; then
+      for filename in $(ls ${PERSONAL_DOTFILES_DIR} | grep ${pattern}); do
+        ALL_DOTFILES+="${PERSONAL_DOTFILES_DIR}/${filename} "
+      done
+    fi
 	done
 else
 	DOTFILES=$(get_all_dotfiles)
@@ -107,14 +125,14 @@ needed_dependencies() {
 
 		if [ $(which vim) ]; then
 			VIMVERSION=$(vim --version | head -1 | cut -d ' ' -f 5)
-			if [[ ${VIMVERSION} < 8 ]]; then 
+			if [[ ${VIMVERSION} < 8 ]]; then
 				packages+=" vim8"
 			fi
 		else
 			packages+=" vim8"
 		fi
 	fi
-	
+
 	for package in ${packages[@]}; do
 		if [ $(which ${package}) ]; then
 			packages=$(echo ${packages} | sed 's/\ /\n/g' | grep -v ${package})
@@ -144,13 +162,19 @@ link_files() {
     if [[ ${name} == tmux* ]]; then
       home_name="${HOME}/.tmux.conf"
     else
-      home_name="${HOME}/.${name}"
+      home_name="${HOME}/.$(basename ${name})"
     fi
 
-    echo "  - ${DOTFILES_DIR}/${name} => ${home_name}"
+    echo "  - ${ALL_DOTFILES_DIR}/${name} => ${home_name}"
     rm -rf "${home_name}"
-    ln -s "${DOTFILES_DIR}/${name}" "${home_name}"
+    ln -s "${ALL_DOTFILES_DIR}/${name}" "${home_name}"
   done
+}
+
+
+install_ohmyzsh() {
+  # https://github.com/robbyrussell/oh-my-zsh
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
 packages=($(needed_dependencies))
@@ -158,6 +182,10 @@ if [[ ${#packages[@]} > 0 ]]; then
   cmd_step "installing dependencies (${packages})" get_dependencies
 else
   echo "all dependencies exist"
+fi
+
+if [[ ${LOAD_PERSONAL} == 1 ]]; then
+  cmd_step "installing ohmyzsh" install_ohmyzsh
 fi
 
 cmd_step "linking_dotfiles" link_files

@@ -1,0 +1,2 @@
+alias mkdir="mkdir -p"
+alias ls="ls -G"
