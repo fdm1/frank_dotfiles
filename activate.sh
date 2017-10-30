@@ -133,6 +133,10 @@ needed_dependencies() {
 		fi
 	fi
 
+  if [[ ${LOAD_PERSONAL} == 1 ]]; then
+    packages+=" zsh"
+  fi
+
 	for package in ${packages[@]}; do
 		if [ $(which ${package}) ]; then
 			packages=$(echo ${packages} | sed 's/\ /\n/g' | grep -v ${package})
@@ -175,6 +179,7 @@ link_files() {
 install_ohmyzsh() {
   # https://github.com/robbyrussell/oh-my-zsh
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  chsh -s $(which zsh)
 }
 
 packages=($(needed_dependencies))
@@ -184,7 +189,7 @@ else
   echo "all dependencies exist"
 fi
 
-if [[ ${LOAD_PERSONAL} == 1 ]]; then
+if [[ ${LOAD_PERSONAL} == 1 ]] && [[ ! -d $HOME/.oh-my-zsh ]]; then
   cmd_step "installing ohmyzsh" install_ohmyzsh
 fi
 

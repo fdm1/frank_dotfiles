@@ -16,5 +16,5 @@
 [mergetool "extMerge"]
 	cmd = bin/extMerge.sh \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
 [core]
-	excludesfile = /Users/fmassi/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	editor = vim
