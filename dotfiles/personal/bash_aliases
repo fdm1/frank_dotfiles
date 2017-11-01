@@ -1,2 +1,6 @@
 alias mkdir="mkdir -p"
 alias ls="ls -G"
+alias gs="git status"
+alias gl="git log"
+alias gd="git diff"
+alias gds="git diff --staged"

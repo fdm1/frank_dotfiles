@@ -4,6 +4,8 @@
 	smudge = git media smudge %f
 [alias]
 	co = checkout
+	staged = diff --staged
+	unstage = reset HEAD
 [push]
 	default = matching
 [user]
