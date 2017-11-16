@@ -14,9 +14,9 @@
 	email = frankmassi@gmail.com
 
 [merge]
-	tool = extMerge
-[mergetool "extMerge"]
-	cmd = bin/extMerge.sh \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+	tool = vimdiff
 [core]
 	excludesfile = ~/.gitignore_global
 	editor = vim
+[diff]
+	tool = vimdiff
