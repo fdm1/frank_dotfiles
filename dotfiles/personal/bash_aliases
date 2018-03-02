@@ -4,3 +4,7 @@ alias gs="git status"
 alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
+
+alias python="python3"
+alias pip="pip3"
+

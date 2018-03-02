@@ -193,6 +193,19 @@ if [[ ${LOAD_PERSONAL} == 1 ]] && [[ ! -d $HOME/.oh-my-zsh ]]; then
   cmd_step "installing ohmyzsh" install_ohmyzsh
 fi
 
+
+INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/IdeaIC2017.3/codestyles
+if [ -d $INTELLIJ_CODESTYLES_DIR ]; then
+  if [ ! -d intellij-config ]; then
+    echo foo
+    cmd_step "cloning braintreeps/intellij-config" git clone https://github.com/braintreeps/intellij-config
+  fi
+
+  if [ ! -e  $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml ]; then
+    cmd_step "link bt intellij styles" ln -s intellij-config/config/codestyles/intellij-java-google-style.xml $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml
+  fi
+fi
+
 cmd_step "linking_dotfiles" link_files
 
 # Clone base dotfiles from braintree
