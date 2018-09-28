@@ -42,17 +42,17 @@ tmux_file() {
 
 
 get_all_dotfiles() {
-	ALL_DOTFILES=()
-	for filename in $(ls ${ALL_DOTFILES_DIR} | grep -v tmux | grep -v personal); do
-		ALL_DOTFILES+="${filename} "
-	done
-	if [[ ${LOAD_PERSONAL} == 1 ]]; then
-		for filename in $(ls ${PERSONAL_DOTFILES_DIR} | grep -v tmux); do
-			ALL_DOTFILES+="personal/${filename} "
-		done
-	fi
-	ALL_DOTFILES+="$(tmux_file)"
-	echo ${ALL_DOTFILES}
+  ALL_DOTFILES=()
+  for filename in $(ls ${ALL_DOTFILES_DIR} | grep -v tmux | grep -v personal); do
+    ALL_DOTFILES+="${filename} "
+  done
+  if [[ ${LOAD_PERSONAL} == 1 ]]; then
+    for filename in $(ls ${PERSONAL_DOTFILES_DIR} | grep -v tmux); do
+      ALL_DOTFILES+="personal/${filename} "
+    done
+  fi
+  ALL_DOTFILES+="$(tmux_file)"
+  echo ${ALL_DOTFILES}
 }
 
 
@@ -63,35 +63,35 @@ while (( "$#" )); do
   if [[ $1 == "--personal" ]]; then
     LOAD_PERSONAL=1
   elif [[ $(echo $1 | cut -c-5) == "--no-" ]]; then
-		EXCLUDED_PATTERNS+="$(echo $1 | sed 's/^--no-//') "
-	else
-		INCLUDED_PATTERNS+="$(echo $1 | sed 's/^--//') "
-	fi
+    EXCLUDED_PATTERNS+="$(echo $1 | sed 's/^--no-//') "
+  else
+    INCLUDED_PATTERNS+="$(echo $1 | sed 's/^--//') "
+  fi
 
   shift
 done
 
 if [[ ${#INCLUDED_PATTERNS[@]} > 0 ]]; then
-	for pattern in ${INCLUDED_PATTERNS[@]}; do
-		if [[ ${pattern} == 'tmux' ]]; then
-			DOTFILES+=" $(tmux_file)"
-		else
-			DOTFILES+=" $(ls ${ALL_DOTFILES_DIR} | grep ${pattern})"
-		fi
+  for pattern in ${INCLUDED_PATTERNS[@]}; do
+    if [[ ${pattern} == 'tmux' ]]; then
+      DOTFILES+=" $(tmux_file)"
+    else
+      DOTFILES+=" $(ls ${ALL_DOTFILES_DIR} | grep ${pattern})"
+    fi
     if [[ ${LOAD_PERSONAL} == 1 ]]; then
       for filename in $(ls ${PERSONAL_DOTFILES_DIR} | grep ${pattern}); do
         ALL_DOTFILES+="${PERSONAL_DOTFILES_DIR}/${filename} "
       done
     fi
-	done
+  done
 else
-	DOTFILES=$(get_all_dotfiles)
+  DOTFILES=$(get_all_dotfiles)
 fi
 
 if [[ ${#EXCLUDED_PATTERNS[@]} > 0 ]]; then
-	for pattern in ${EXCLUDED_PATTERNS[@]}; do
-		DOTFILES=$(echo ${DOTFILES} | sed 's/ /\n/g' | grep -v ${pattern})
-	done
+  for pattern in ${EXCLUDED_PATTERNS[@]}; do
+    DOTFILES=$(echo ${DOTFILES} | sed 's/ /\n/g' | grep -v ${pattern})
+  done
 fi
 
 
@@ -115,33 +115,33 @@ get_vim_8() {
 }
 
 needed_dependencies() {
-	packages=""
+  packages=""
 
-	TMUX_PACKAGES="tmux "
-	VIM_PACKAGES="wget curl "
-	if [[ ! -z $(echo ${DOTFILES} | grep tmux) ]]; then packages+=${TMUX_PACKAGES}; fi
-	if [[ ! -z $(echo ${DOTFILES} | grep vim) ]]; then
-		packages+=${VIM_PACKAGES}
+  TMUX_PACKAGES="tmux "
+  VIM_PACKAGES="wget curl "
+  if [[ ! -z $(echo ${DOTFILES} | grep tmux) ]]; then packages+=${TMUX_PACKAGES}; fi
+  if [[ ! -z $(echo ${DOTFILES} | grep vim) ]]; then
+    packages+=${VIM_PACKAGES}
 
-		if [ $(which vim) ]; then
-			VIMVERSION=$(vim --version | head -1 | cut -d ' ' -f 5)
-			if [[ ${VIMVERSION} < 8 ]]; then
-				packages+=" vim8"
-			fi
-		else
-			packages+=" vim8"
-		fi
-	fi
+    if [ $(which vim) ]; then
+      VIMVERSION=$(vim --version | head -1 | cut -d ' ' -f 5)
+      if [[ ${VIMVERSION} < 8 ]]; then
+        packages+=" vim8"
+      fi
+    else
+      packages+=" vim8"
+    fi
+  fi
 
   if [[ ${LOAD_PERSONAL} == 1 ]]; then
     packages+=" zsh"
   fi
 
-	for package in ${packages[@]}; do
-		if [ $(which ${package}) ]; then
-			packages=$(echo ${packages} | sed 's/\ /\n/g' | grep -v ${package})
-		fi
-	done
+  for package in ${packages[@]}; do
+    if [ $(which ${package}) ]; then
+      packages=$(echo ${packages} | sed 's/\ /\n/g' | grep -v ${package})
+    fi
+  done
 
   echo ${packages}
 }
@@ -149,11 +149,11 @@ needed_dependencies() {
 get_dependencies() {
   sudo apt-get update
 
-	packages=$(needed_dependencies)
+  packages=$(needed_dependencies)
   for package in ${packages[@]}; do
-		if [[ ${package} == 'vim8' ]]; then
-			get_vim_8
-		else
+    if [[ ${package} == 'vim8' ]]; then
+      get_vim_8
+    else
       sudo apt-get install -y ${package}
     fi
   done
@@ -197,7 +197,6 @@ fi
 INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/IdeaIC2017.3/codestyles
 if [ -d $INTELLIJ_CODESTYLES_DIR ]; then
   if [ ! -d intellij-config ]; then
-    echo foo
     cmd_step "cloning braintreeps/intellij-config" git clone https://github.com/braintreeps/intellij-config
   fi
 
@@ -210,12 +209,14 @@ cmd_step "linking_dotfiles" link_files
 
 # Clone base dotfiles from braintree
 if [[ ! -z $(echo ${DOTFILES} | grep vim) ]]; then
-	if [ ! -d vim_dotfiles ]; then
-		cmd_step "cloning braintreeps/vim_dotfiles" git clone https://github.com/braintreeps/vim_dotfiles
-	fi
 
-	cmd_step "updating braintreeps/vim_dotfiles" cd vim_dotfiles && git pull origin master
-	cmd_step "activating all the things" bash activate.sh
+  VIM_HOME=$HOME/.vim
+  if [ ! -d $VIM_HOME ]; then
+    cmd_step "cloning braintreeps/vim_dotfiles into ~/.vim" git clone https://github.com/braintreeps/vim_dotfiles $VIM_HOME
+  fi
+
+  cmd_step "updating braintreeps/vim_dotfiles" cd $VIM_HOME && git pull origin master
+  cmd_step "activating all the things" bash $VIM_HOME/activate.sh
 fi
 
 if [[ $(ps aux | grep tmux | grep -v grep) ]] && [[ ! -z $(echo ${DOTFILES} | grep tmux) ]]; then
