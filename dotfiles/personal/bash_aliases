@@ -5,6 +5,10 @@ alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
 
-alias python="python3"
-alias pip="pip3"
+WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
+if [ -e $WINDOWS_YKMAN ]; then
+  alias ykman="/mnt/b/Software/yubico/YubiKey\ Manager/ykman.exe"
+fi
+# alias python="python3"
+# alias pip="pip3"
 
