@@ -5,3 +5,32 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+export PROJECT_HOME=$HOME/coding
+mkdir -p $PROJECT_HOME
+
+if [ ! $(command -v virtualenv) ]; then
+  sudo pip install virtualenv
+  sudo pip install virtualenvwrapper
+fi
+
+export WORKON_HOME=$HOME/coding/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+# export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+
+source /usr/local/bin/virtualenvwrapper.sh
+
+gpg_is_up() {
+    echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
+}
+
+
+killall ssh-agent > /dev/null 2>&1
+killall gpg-agent > /dev/null 2>&1
+
+if [ "$(gpg_is_up)" -eq 0 ]; then
+    eval $(gpg-agent --daemon --enable-ssh-support)
+fi
+
+ssh-add -K > /dev/null 2>&1

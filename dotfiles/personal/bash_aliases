@@ -5,7 +5,6 @@ alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
 
-
 escape_spaces() {
   echo $1 | sed 's/ /\\\ /g'
 }
@@ -13,11 +12,6 @@ escape_spaces() {
 WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
 if [ -e $WINDOWS_YKMAN ]; then
   alias ykman="$(escape_spaces ${WINDOWS_YKMAN})"
-fi
-
-WINDOWS_YUBIKEY_PIV_TOOL="/mnt/b/Software/yubico/YubiKey PIV Manager/yubico-piv-tool.exe"
-if [ -e $WINDOWS_YUBIKEY_PIV_TOOL ]; then
-  alias yubico-piv-tool="$(escape_spaces ${WINDOWS_YUBIKEY_PIV_TOOL} )"
 fi
 
 WINDOWS_GPG="/mnt/b/Software/GnuPG/bin/gpg.exe"

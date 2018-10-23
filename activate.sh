@@ -2,7 +2,9 @@
 
 set -eu -o pipefail
 
-ALL_DOTFILES_DIR=$(cd "$(dirname "$0")"; pwd)/dotfiles
+ROOT_DIR=$(cd "$(dirname "$0")"; pwd)
+
+ALL_DOTFILES_DIR=${ROOT_DIR}/dotfiles
 LOAD_PERSONAL=0
 PERSONAL_DOTFILES_DIR=${ALL_DOTFILES_DIR}/personal
 DOTFILES=()
@@ -56,6 +58,12 @@ get_all_dotfiles() {
 }
 
 
+link_gnupgp_conf() {
+  cd ${ROOT_DIR}
+  for filename in $(ls gnupg/*.conf); do
+    ln -s ${ROOT_DIR}/${filename} ${HOME}/.gnupg/$(basename ${filename})
+  done
+}
 
 while (( "$#" )); do
   if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] || [[ $(echo $1 | cut -c-2) != "--" ]]; then usage; fi
@@ -222,6 +230,10 @@ fi
 if [[ $(ps aux | grep tmux | grep -v grep) ]] && [[ ! -z $(echo ${DOTFILES} | grep tmux) ]]; then
   cmd_step "reloading tmux.conf"
   tmux source ${HOME}/.tmux.conf > /dev/null 2>&1
+fi
+
+if [[ ${LOAD_PERSONAL} == 1 ]]; then
+  cmd_step "linking gnupg conf files" link_gnupgp_conf
 fi
 
 echo "Success!"
