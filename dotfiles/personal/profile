@@ -5,6 +5,10 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.tfenv/bin:$PATH"
+
+
+# VIRTUALENVWRAPPER
 
 export PROJECT_HOME=$HOME/coding
 mkdir -p $PROJECT_HOME
@@ -21,15 +25,17 @@ export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 
 source /usr/local/bin/virtualenvwrapper.sh
 
+
+# Use gpg-agent instead of ssh-agent to use ssh keys and yubikeys
 gpg_is_up() {
     echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
 }
 
-
-killall ssh-agent > /dev/null 2>&1
-killall gpg-agent > /dev/null 2>&1
+export "GPG_TTY=$(tty)"
+export "SSH_AUTH_SOCK=${HOME}/.gnupg/S.gpg-agent.ssh"
 
 if [ "$(gpg_is_up)" -eq 0 ]; then
+    echo "starting gpg agent"
     eval $(gpg-agent --daemon --enable-ssh-support)
 fi
 
