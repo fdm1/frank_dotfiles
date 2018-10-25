@@ -20,3 +20,6 @@
 	editor = vim
 [diff]
 	tool = vimdiff
+
+[gpg]
+  program=/usr/local/bin/gpg

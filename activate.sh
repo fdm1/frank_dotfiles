@@ -42,7 +42,6 @@ tmux_file() {
   fi
 }
 
-
 get_all_dotfiles() {
   ALL_DOTFILES=()
   for filename in $(ls ${ALL_DOTFILES_DIR} | grep -v tmux | grep -v personal); do
@@ -57,14 +56,7 @@ get_all_dotfiles() {
   echo ${ALL_DOTFILES}
 }
 
-
-link_gnupgp_conf() {
-  cd ${ROOT_DIR}
-  for filename in $(ls gnupg/*.conf); do
-    ln -s ${ROOT_DIR}/${filename} ${HOME}/.gnupg/$(basename ${filename})
-  done
-}
-
+# TODO: switch to better options parser
 while (( "$#" )); do
   if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] || [[ $(echo $1 | cut -c-2) != "--" ]]; then usage; fi
 
@@ -179,7 +171,17 @@ link_files() {
 
     echo "  - ${ALL_DOTFILES_DIR}/${name} => ${home_name}"
     rm -rf "${home_name}"
-    ln -s "${ALL_DOTFILES_DIR}/${name}" "${home_name}"
+    if [ ! -d ${ALL_DOTFILES_DIR}/${name} ]; then
+      ln -s "${ALL_DOTFILES_DIR}/${name}" "${home_name}"
+    fi
+  done
+}
+
+link_gnupgp_conf() {
+  cd ${ROOT_DIR}
+  for filename in $(ls gnupg/*.conf); do
+    rm ${HOME}/.gnupg/$(basename ${filename})
+    ln -s ${ROOT_DIR}/${filename} ${HOME}/.gnupg/$(basename ${filename})
   done
 }
 
