@@ -10,6 +10,7 @@ if [[ $(which_computer) == "home" ]]; then
     echo $1 | sed 's/ /\\\ /g'
   }
 
+  # TODO: switch to wslpath for windows stuff to convert C:\ to /mnt/c ...
   WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
   alias ykman="$(escape_spaces ${WINDOWS_YKMAN})"
 

@@ -1,73 +1,77 @@
 export LESS=eFRX  # turn off pagination
 
 which_computer() {
-    if [ -d /mnt/c/Windows ]; then
-        echo "home"
-    else
-        echo "work"
-    fi
+  if [ -d /mnt/c/Windows ]; then
+    echo "home"
+  else
+    echo "work"
+  fi
 }
 
-
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
 
-
-
 if [[ $(which_computer) == "work" ]]; then
-    # VIRTUALENVWRAPPER
+  # VIRTUALENVWRAPPER
 
-    export PROJECT_HOME=$HOME/coding
-    mkdir -p $PROJECT_HOME
+  export PROJECT_HOME=$HOME/coding
+  mkdir -p $PROJECT_HOME
 
-    if [ ! $(command -v virtualenv) ]; then
-    sudo pip install virtualenv
-    sudo pip install virtualenvwrapper
-    fi
+  if [ ! $(command -v virtualenv) ]; then
+  sudo pip install virtualenv
+  sudo pip install virtualenvwrapper
+  fi
 
-    export WORKON_HOME=$HOME/coding/.virtualenvs
-    export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-    export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
-    # export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+  export WORKON_HOME=$HOME/coding/.virtualenvs
+  export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+  export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 
-    source /usr/local/bin/virtualenvwrapper.sh
+  source /usr/local/bin/virtualenvwrapper.sh
 
-    # Set up work stuff to use ssh-agent
+  # Set up work stuff to use ssh-agent
   ssh_is_up() {
-      echo $(ps aux | grep ssh-agent | grep -v grep | wc -l)
+    echo $(ps aux | grep ssh-agent | grep -v grep | wc -l)
   }
 
   SSH_SOCK_LOC=${HOME}/.ssh/current_ssh_sock
 
   if [ "$(ssh_is_up)" -eq 0 ]; then
-      echo "starting ssh agent"
-      eval $(ssh-agent)
-      ssh-add -K
-      echo ${SSH_AUTH_SOCK} > ${SSH_SOCK_LOC}
+    echo "starting ssh agent"
+    eval $(ssh-agent)
+    ssh-add -K
+    echo ${SSH_AUTH_SOCK} > ${SSH_SOCK_LOC}
   fi
 
-  alias cpair="SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) cpair"
-  alias bt-ssh="SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) ssh"
-fi
+  use_ssh_agent() {
+    SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) $@
+  }
 
-gpg_is_up() {
+  alias cpair="use_ssh_agent cpair"
+  alias bt-ssh="use_ssh_agent ssh"
+
+  gpg_is_up() {
     echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
-}
+  }
 
-export GNUPGHOME=${HOME}/.gnupg
-export GPG_TTY=$(tty)
+  export GNUPGHOME=${HOME}/.gnupg
+  export GPG_TTY=$(tty)
 
-if [[ $(which_computer) == "home" ]]; then
-    export SSH_AUTH_SOCK=$(wslpath -a $(gpgconf --list-dirs agent-ssh-socket))
-else
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-fi
-
-if [ "$(gpg_is_up)" -eq 0 ]; then
+  if [ "$(gpg_is_up)" -eq 0 ]; then
     echo "starting gpg agent"
-    # eval $(gpg-agent --daemon --enable-ssh-support)
+    eval $(gpg-agent --daemon --enable-ssh-support)
+  fi
 fi
+
+
+# TODO: separate files dealt with in activate.sh
+if [[ $(which_computer) == "home" ]]; then
+  export SSH_AUTH_SOCK=$(wslpath -a $(gpgconf --list-dirs agent-ssh-socket))
+else
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+fi
+
+# vi:syntax=sh
