@@ -1,5 +1,14 @@
 export LESS=eFRX  # turn off pagination
 
+which_computer() {
+    if [ -d /mnt/c/Windows ]; then
+        echo "home"
+    else
+        echo "work"
+    fi
+}
+
+
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -8,27 +17,26 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
 
 
-# VIRTUALENVWRAPPER
 
-export PROJECT_HOME=$HOME/coding
-mkdir -p $PROJECT_HOME
+if [[ $(which_computer) == "work" ]]; then
+    # VIRTUALENVWRAPPER
 
-if [ ! $(command -v virtualenv) ]; then
-  sudo pip install virtualenv
-  sudo pip install virtualenvwrapper
-fi
+    export PROJECT_HOME=$HOME/coding
+    mkdir -p $PROJECT_HOME
 
-export WORKON_HOME=$HOME/coding/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
-# export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+    if [ ! $(command -v virtualenv) ]; then
+    sudo pip install virtualenv
+    sudo pip install virtualenvwrapper
+    fi
 
-source /usr/local/bin/virtualenvwrapper.sh
+    export WORKON_HOME=$HOME/coding/.virtualenvs
+    export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+    export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+    # export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 
+    source /usr/local/bin/virtualenvwrapper.sh
 
-# Set up work stuff to use ssh-agent
-if [ -d /Users/fmassi ]; then
-
+    # Set up work stuff to use ssh-agent
   ssh_is_up() {
       echo $(ps aux | grep ssh-agent | grep -v grep | wc -l)
   }
@@ -46,15 +54,20 @@ if [ -d /Users/fmassi ]; then
   alias bt-ssh="SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) ssh"
 fi
 
-
 gpg_is_up() {
     echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
 }
 
+export GNUPGHOME=${HOME}/.gnupg
 export GPG_TTY=$(tty)
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+if [[ $(which_computer) == "home" ]]; then
+    export SSH_AUTH_SOCK=$(wslpath -a $(gpgconf --list-dirs agent-ssh-socket))
+else
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+fi
 
 if [ "$(gpg_is_up)" -eq 0 ]; then
     echo "starting gpg agent"
-    eval $(gpg-agent --daemon --enable-ssh-support)
+    # eval $(gpg-agent --daemon --enable-ssh-support)
 fi

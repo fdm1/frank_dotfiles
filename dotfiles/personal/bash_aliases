@@ -5,17 +5,15 @@ alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
 
-escape_spaces() {
-  echo $1 | sed 's/ /\\\ /g'
-}
+if [[ $(which_computer) == "home" ]]; then
+  escape_spaces() {
+    echo $1 | sed 's/ /\\\ /g'
+  }
 
-WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
-if [ -e $WINDOWS_YKMAN ]; then
+  WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
   alias ykman="$(escape_spaces ${WINDOWS_YKMAN})"
-fi
 
-WINDOWS_GPG="/mnt/b/Software/GnuPG"
-if [ -d $WINDOWS_GPG ]; then
+  WINDOWS_GPG="/mnt/b/Software/GnuPG"
   alias gpg="${WINDOWS_GPG}/bin/gpg.exe"
   alias gpgconf="${WINDOWS_GPG}/bin/gpgconf.exe"
   alias gpg-agent="${WINDOWS_GPG}/bin/gpg-agent.exe"
