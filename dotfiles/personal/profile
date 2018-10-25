@@ -26,17 +26,35 @@ export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 source /usr/local/bin/virtualenvwrapper.sh
 
 
-# Use gpg-agent instead of ssh-agent to use ssh keys and yubikeys
+# Set up work stuff to use ssh-agent
+if [ -d /Users/fmassi ]; then
+
+  ssh_is_up() {
+      echo $(ps aux | grep ssh-agent | grep -v grep | wc -l)
+  }
+
+  SSH_SOCK_LOC=${HOME}/.ssh/current_ssh_sock
+
+  if [ "$(ssh_is_up)" -eq 0 ]; then
+      echo "starting ssh agent"
+      eval $(ssh-agent)
+      ssh-add -K
+      echo ${SSH_AUTH_SOCK} > ${SSH_SOCK_LOC}
+  fi
+
+  alias cpair="SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) cpair"
+  alias bt-ssh="SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) ssh"
+fi
+
+
 gpg_is_up() {
     echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
 }
 
-export "GPG_TTY=$(tty)"
-export "SSH_AUTH_SOCK=${HOME}/.gnupg/S.gpg-agent.ssh"
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 if [ "$(gpg_is_up)" -eq 0 ]; then
     echo "starting gpg agent"
     eval $(gpg-agent --daemon --enable-ssh-support)
 fi
-
-ssh-add -K > /dev/null 2>&1
