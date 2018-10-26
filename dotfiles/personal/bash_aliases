@@ -19,3 +19,5 @@ if [[ $(which_computer) == "home" ]]; then
   alias gpgconf="${WINDOWS_GPG}/bin/gpgconf.exe"
   alias gpg-agent="${WINDOWS_GPG}/bin/gpg-agent.exe"
 fi
+
+# vi:syntax=sh

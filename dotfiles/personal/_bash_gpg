@@ -1,0 +1,52 @@
+# keys include "(yubikey XYZ)" in their names. Keyrings are named XYZ.gpg
+
+alias system_gpg="$(which gpg)"
+
+all_keyrings() {
+  KEYRINGS=$(ls ~/.gnupg/*.gpg | grep -v trustdb)
+  KEY_ARGS=""
+  for keyring in ${HOME}/.gnupg/*.gpg; do
+    KEY_BASENAME=$(basename ${keyring})
+    if [[ "${KEY_BASENAME}" != "trustdb.gpg" ]]; then
+      KEY_ARGS+="--keyring $(basename $keyring) "
+    fi
+  done
+
+  echo ${KEY_ARGS}
+}
+
+
+gpg_is_up() {
+  echo $(ps aux | grep gpg-agent | grep -v grep | wc -l)
+}
+
+start_gpg() {
+  export GNUPGHOME=${HOME}/.gnupg
+  export GPG_TTY=$(tty)
+
+  if [ "$(gpg_is_up)" -eq 0 ]; then
+    echo "starting gpg agent"
+    eval $(gpg-agent --daemon --enable-ssh-support)
+  fi
+}
+
+gpg_refresh() {
+  killall pinentry-curses
+  killall pinentry
+  killall gpg-agent
+  start_gpg
+}
+
+
+get_yubikey_keyring() {
+  echo $(gpg_all --card-status | grep info | awk -F "yubikey " '{print $2}' | awk -F ")" '{print $1}').gpg
+}
+
+refresh_yubikey_keyring() {
+  export YUBIKEY_KEYRING="$(get_yubikey_keyring)"
+}
+
+alias gpg="refresh_yubikey_keyring && system_gpg --keyring \$YUBIKEY_KEYRING"
+alias gpg_all="system_gpg $(all_keyrings)"
+
+# vi:syntax=sh
