@@ -204,7 +204,8 @@ if [[ ${LOAD_PERSONAL} == 1 ]] && [[ ! -d $HOME/.oh-my-zsh ]]; then
 fi
 
 
-INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/IdeaIC2017.3/codestyles
+LATEST_INTELLIJ="$(ls ~/Library/Preferences/ | grep IdeaIC | sort | tail -n 1)"
+INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/${LATEST_INTELLIJ}/codestyles
 if [ -d $INTELLIJ_CODESTYLES_DIR ]; then
   if [ ! -d intellij-config ]; then
     cmd_step "cloning braintreeps/intellij-config" git clone https://github.com/braintreeps/intellij-config
