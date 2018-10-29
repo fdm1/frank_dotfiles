@@ -29,5 +29,7 @@ map <LocalLeader>9 :buffer 9<CR>
 
 set pastetoggle=<LocalLeader>[
 
+:command Detab :%s /	/    /g
+
 :set mouse=a
 
