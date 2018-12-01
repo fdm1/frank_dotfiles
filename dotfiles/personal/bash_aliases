@@ -14,10 +14,10 @@ if [[ $(which_computer) == "home" ]]; then
   WINDOWS_YKMAN="/mnt/b/Software/yubico/YubiKey Manager/ykman.exe"
   alias ykman="$(escape_spaces ${WINDOWS_YKMAN})"
 
-  WINDOWS_GPG="/mnt/b/Software/GnuPG"
-  alias gpg="${WINDOWS_GPG}/bin/gpg.exe"
-  alias gpgconf="${WINDOWS_GPG}/bin/gpgconf.exe"
-  alias gpg-agent="${WINDOWS_GPG}/bin/gpg-agent.exe"
+  # WINDOWS_GPG="/mnt/b/Software/GnuPG"
+  # alias gpg="${WINDOWS_GPG}/bin/gpg.exe"
+  # alias gpgconf="${WINDOWS_GPG}/bin/gpgconf.exe"
+  # alias gpg-agent="${WINDOWS_GPG}/bin/gpg-agent.exe"
 fi
 
 # vi:syntax=sh

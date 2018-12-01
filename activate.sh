@@ -203,16 +203,17 @@ if [[ ${LOAD_PERSONAL} == 1 ]] && [[ ! -d $HOME/.oh-my-zsh ]]; then
   cmd_step "installing ohmyzsh" install_ohmyzsh
 fi
 
+if [ -d ${HOME}/Library/Preferences ]; then
+  LATEST_INTELLIJ="$(ls ~/Library/Preferences/ | grep IdeaIC | sort | tail -n 1)"
+  INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/${LATEST_INTELLIJ}/codestyles
+  if [ -d $INTELLIJ_CODESTYLES_DIR ]; then
+    if [ ! -d intellij-config ]; then
+      cmd_step "cloning braintreeps/intellij-config" git clone https://github.com/braintreeps/intellij-config
+    fi
 
-LATEST_INTELLIJ="$(ls ~/Library/Preferences/ | grep IdeaIC | sort | tail -n 1)"
-INTELLIJ_CODESTYLES_DIR=/Users/fmassi/Library/Preferences/${LATEST_INTELLIJ}/codestyles
-if [ -d $INTELLIJ_CODESTYLES_DIR ]; then
-  if [ ! -d intellij-config ]; then
-    cmd_step "cloning braintreeps/intellij-config" git clone https://github.com/braintreeps/intellij-config
-  fi
-
-  if [ ! -e  $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml ]; then
-    cmd_step "link bt intellij styles" ln -s intellij-config/config/codestyles/intellij-java-google-style.xml $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml
+    if [ ! -e  $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml ]; then
+      cmd_step "link bt intellij styles" ln -s intellij-config/config/codestyles/intellij-java-google-style.xml $INTELLIJ_CODESTYLES_DIR/intellij-java-google-style.xml
+    fi
   fi
 fi
 
@@ -240,3 +241,6 @@ if [[ ${LOAD_PERSONAL} == 1 ]]; then
 fi
 
 echo "Success!"
+
+
+# WINDOWS - rm conf files from c/users/frank/appdata/roaming/gnupg and symlink - not working :/

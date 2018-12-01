@@ -1,4 +1,6 @@
 alias system_gpg="$(which gpg)"
+alias system_gpg="/mnt/c/Program\ Files\ \(x86\)/gnupg/bin/gpg.exe"  # windowsYYPW
+alias gpg-agent="/mnt/c/Program\ Files\ \(x86\)/gnupg/bin/gpg-agent.exe"  # windowsYYPW
 
 all_keyrings() {
   KEY_ARGS=""
@@ -44,5 +46,6 @@ refresh_yubikey_keyring() {
 
 alias gpg="refresh_yubikey_keyring && system_gpg --keyring \$YUBIKEY_KEYRING"
 alias gpg_all="system_gpg $(all_keyrings)"
+alias gpg=system_gpg
 
 # vi:syntax=sh
