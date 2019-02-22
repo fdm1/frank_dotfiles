@@ -58,6 +58,8 @@ if [[ $(which_computer) == "work" ]]; then
   alias cpair="use_ssh_agent cpair"
   alias bt-ssh="use_ssh_agent ssh"
   start_gpg
+  export PAIR=frankmassi
+  export CPAIR_FORWARD_PORTS=8157
 fi
 
 
