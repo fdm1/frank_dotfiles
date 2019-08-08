@@ -22,21 +22,22 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 
 if [[ $(which_computer) == "work" ]]; then
   # VIRTUALENVWRAPPER
+  export PATH=/usr/local/opt/python/libexec/bin:$PATH
 
   export PROJECT_HOME=$HOME/coding
   mkdir -p $PROJECT_HOME
-
-  if [ ! $(command -v virtualenv) ]; then
-  sudo pip install virtualenv
-  sudo pip install virtualenvwrapper
-  fi
-
-  export WORKON_HOME=$HOME/coding/.virtualenvs
-  export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-  export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
-
-  source /usr/local/bin/virtualenvwrapper.sh
-
+  #
+  # if [ ! $(command -v virtualenv) ]; then
+  # sudo pip install virtualenv
+  # sudo pip install virtualenvwrapper
+  # fi
+  #
+  # export WORKON_HOME=$HOME/coding/.virtualenvs
+  # export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+  # export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+  #
+  # source /usr/local/bin/virtualenvwrapper.sh
+  #
   # Set up work stuff to use ssh-agent
   ssh_is_up() {
     echo $(ps aux | grep ssh-agent | grep -v grep | wc -l)
@@ -51,15 +52,11 @@ if [[ $(which_computer) == "work" ]]; then
     echo ${SSH_AUTH_SOCK} > ${SSH_SOCK_LOC}
   fi
 
-  use_ssh_agent() {
-    SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) $@
-  }
-
   alias cpair="use_ssh_agent cpair"
   alias bt-ssh="use_ssh_agent ssh"
   start_gpg
   export PAIR=frankmassi
-  export CPAIR_FORWARD_PORTS=8157
+  # export CPAIR_FORWARD_PORTS=8157
 fi
 
 
@@ -68,6 +65,7 @@ if [[ $(which_computer) == "home" ]]; then
   export SSH_AUTH_SOCK=$(wslpath -a $(gpgconf --list-dirs agent-ssh-socket))
 else
   export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+  disable_yubkikey_keys
 fi
 
 # vi:syntax=sh

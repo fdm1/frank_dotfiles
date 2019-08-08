@@ -89,3 +89,13 @@ if [ -f ~/.profile ]; then
 fi
 
 # vi:syntax=sh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+GCLOUD_SDK_PATH='/Users/fmassi/Downloads/google-cloud-sdk'
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "${GCLOUD_SDK_PATH}/path.zsh.inc" ]; then . "${GCLOUD_SDK_PATH}/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "${GCLOUD_SDK_PATH}/completion.zsh.inc" ]; then . "${GCLOUD_SDK_PATH}/completion.zsh.inc"; fi

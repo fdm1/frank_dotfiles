@@ -42,6 +42,14 @@ refresh_yubikey_keyring() {
   export YUBIKEY_KEYRING="$(get_yubikey_keyring)"
 }
 
+use_ssh_agent() {
+  SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC}) $@
+}
+
+disable_yubkikey_keys() {
+  export SSH_AUTH_SOCK=$(cat ${SSH_SOCK_LOC})
+}
+
 alias gpg="refresh_yubikey_keyring && system_gpg --keyring \$YUBIKEY_KEYRING"
 alias gpg_all="system_gpg $(all_keyrings)"
 
