@@ -1,5 +1,0 @@
-Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/dbext.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'gcmt/taboo.vim'
-Plug 'christoomey/vim-tmux-navigator'

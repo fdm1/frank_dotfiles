@@ -1,0 +1,26 @@
+#! /bin/bash
+alias vim=nvim
+alias vi=nvim
+alias viminit="vim ~/code/dev-box/dotfiles/nvim/init.vim"
+alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
+
+alias mkdir="mkdir -p"
+alias gs="git status"
+alias gl="git log"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gdno="git diff --name-only"
+alias glo="git log --oneline"
+alias gh="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
+. ~/code/root-infrastructure/sbin/tf-helpers.sh
+
+alias fix_fork_dbdo="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES dbdo"
+
+
+# Parse a trip file and output start time, end time, and a Google Maps URL with the start and end location
+function map () {
+  aws s3 cp $1 - | zcat |\
+  jq '.locations | first.timestamp |= todateiso8601 | last.timestamp |= todateiso8601 | "Start: \(first.timestamp)\nEnd: \(last.timestamp)\nhttps://google.com/maps/dir/\(first.latitude),\(first.longitude)/\(last.latitude),\(last.longitude)"' -r
+}
+
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
