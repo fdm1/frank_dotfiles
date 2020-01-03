@@ -1,7 +1,7 @@
-nmap <silent> <LocalLeader>ag :Ag<CR>
-nmap <silent> <LocalLeader>cc :TComment<CR>
-nmap <silent> <LocalLeader>uc :TComment<CR>
-nmap <silent> <leader>ff :Files<CR>
+map <silent> <LocalLeader>ag :Ag<CR>
+map <silent> <LocalLeader>cc :TComment<CR>
+map <silent> <LocalLeader>uc :TComment<CR>
+map <silent> <leader>ff :Files<CR>
 nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=vimux<CR>
 nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=vimux<CR>
 nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=vimux<CR>
