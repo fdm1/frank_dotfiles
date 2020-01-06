@@ -2,6 +2,8 @@ map <silent> <LocalLeader>ag :Ag<CR>
 map <silent> <LocalLeader>cc :TComment<CR>
 map <silent> <LocalLeader>uc :TComment<CR>
 map <silent> <leader>ff :Files<CR>
+
+" tmux-ify test runners
 nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=vimux<CR>
 nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=vimux<CR>
 nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=vimux<CR>
@@ -14,10 +16,21 @@ if filereadable('Pipfile.lock')
     let g:ale_python_black_auto_pipenv = 1
   endif
 end
+
+" Terraform lint fixing
 let terraform = expand('~/.local/bin/terraform')
 if filereadable(terraform)
   let g:ale_fixers['tf'] = ['terraform']
   let g:ale_terraform_fmt_executable = terraform
 end
 
+" Temp removal of rubocop since it's breaking stuff
 let g:ale_fixers['ruby'] = []
+
+" Alias commands for fat-fingering
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+call SetupCommandAlias("W","w")
