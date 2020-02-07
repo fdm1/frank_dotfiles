@@ -58,3 +58,5 @@ function enterprise-db() {
 
   psql $(root config get enterprise-server -e $ENVIRONMENT -k $DATABASE -f value)
 }
+
+alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
