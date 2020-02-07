@@ -3,6 +3,9 @@ alias vim=nvim
 alias vi=nvim
 alias viminit="vim ~/code/dev-box/dotfiles/nvim/init.vim"
 alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
+alias gti=git
+
+alias cddevbox="cd ~/code/dev-box"
 
 alias mkdir="mkdir -p"
 alias gs="git status"
@@ -15,6 +18,7 @@ alias gh="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - 
 . ~/code/root-infrastructure/sbin/tf-helpers.sh
 
 alias fix_fork_dbdo="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES dbdo"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 
 # Parse a trip file and output start time, end time, and a Google Maps URL with the start and end location
@@ -23,4 +27,34 @@ function map () {
   jq '.locations | first.timestamp |= todateiso8601 | last.timestamp |= todateiso8601 | "Start: \(first.timestamp)\nEnd: \(last.timestamp)\nhttps://google.com/maps/dir/\(first.latitude),\(first.longitude)/\(last.latitude),\(last.longitude)"' -r
 }
 
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+# Log in to a Cognito Identity pool
+function cognito-login() {
+  aws-logout
+  ID=$(aws cognito-identity get-id --identity-pool $1 | jq .'IdentityId' -r)
+  CREDENTIALS_RESPONSE=$(aws cognito-identity get-credentials-for-identity --id $ID)
+  AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'AccessKeyId' -r)
+  AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'SecretKey' -r)
+  AWS_SESSION_TOKEN=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'SessionToken' -r)
+  echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+  echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+  echo "export AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
+  export AWS_ACCESS_KEY_ID
+  export AWS_SECRET_ACCESS_KEY
+  export AWS_SESSION_TOKEN
+  STS_IDENTITY_ARN=$(aws sts get-caller-identity | jq .'Arn')
+  echo "\nSuccessfully exported the above variables and logged in as $STS_IDENTITY_ARN"
+}
+
+# Open a URL for your current branch's builds
+function buildkite () {
+  REPO=$(basename `git rev-parse --show-toplevel`)
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  open "https://buildkite.com/root-insurance/$REPO/builds?branch=$BRANCH"
+}
+
+function enterprise-db() {
+  ENVIRONMENT=$1
+  DATABASE=$( awk '{print toupper($0)}' <<< $2)_DATABASE_FOLLOWER_URL
+
+  psql $(root config get enterprise-server -e $ENVIRONMENT -k $DATABASE -f value)
+}
