@@ -34,3 +34,30 @@ fun! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 call SetupCommandAlias("W","w")
+" Stuff taken from: https://github.com/ThePrimeagen/vimrc/blob/master/.vimrc
+" Setup python plugin support
+let g:python3_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'
+let g:python_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'
+
+" You Complete Me
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
+let g:ycm_max_diagnostics_to_display=0
+" DEBUG STUFFS
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+let g:ycm_warning_symbol = '.'
+let g:ycm_error_symbol = '..'
+let g:ycm_server_use_vim_stdout = 1
+
+" Autocompletion
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+autocmd BufEnter *.tsx set filetype=typescript
