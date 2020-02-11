@@ -60,3 +60,5 @@ function enterprise-db() {
 }
 
 alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
+alias delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
+alias vim_health="vim +CheckHealth"
