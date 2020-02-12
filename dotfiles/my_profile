@@ -1,13 +1,26 @@
 #! /bin/bash
+
+#################
+# Rando stuff
+#################
+alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
+alias mkdir="mkdir -p"
+
+
+#################
+# Vim stuff
+#################
 alias vim=nvim
 alias vi=nvim
 alias viminit="vim ~/code/dev-box/dotfiles/nvim/init.vim"
-alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
+alias vim_health="vim +CheckHealth"
+alias vim_plug="vim +PlugInstall +PlugClean! +qall"
+
+
+#################
+# Git stuff
+#################
 alias gti=git
-
-alias cddevbox="cd ~/code/dev-box"
-
-alias mkdir="mkdir -p"
 alias gs="git status"
 alias gl="git log"
 alias gd="git diff"
@@ -15,11 +28,24 @@ alias gds="git diff --staged"
 alias gdno="git diff --name-only"
 alias glo="git log --oneline"
 alias gh="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
-. ~/code/root-infrastructure/sbin/tf-helpers.sh
+alias delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
+alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
 
+function git_current_branch () {
+  echo "$(git rev-parse --abbrev-ref HEAD)"
+}
+
+function git_force_push () {
+  git push -f origin $(git_current_branch)
+}
+
+
+###############
+# Root stuff
+###############
+alias cddevbox="cd ~/code/dev-box"
 alias fix_fork_dbdo="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES dbdo"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-
 
 # Parse a trip file and output start time, end time, and a Google Maps URL with the start and end location
 function map () {
@@ -45,20 +71,4 @@ function cognito-login() {
   echo "\nSuccessfully exported the above variables and logged in as $STS_IDENTITY_ARN"
 }
 
-# Open a URL for your current branch's builds
-function buildkite () {
-  REPO=$(basename `git rev-parse --show-toplevel`)
-  BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  open "https://buildkite.com/root-insurance/$REPO/builds?branch=$BRANCH"
-}
-
-function enterprise-db() {
-  ENVIRONMENT=$1
-  DATABASE=$( awk '{print toupper($0)}' <<< $2)_DATABASE_FOLLOWER_URL
-
-  psql $(root config get enterprise-server -e $ENVIRONMENT -k $DATABASE -f value)
-}
-
-alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
-alias delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
-alias vim_health="vim +CheckHealth"
+. ~/code/root-infrastructure/sbin/tf-helpers.sh
