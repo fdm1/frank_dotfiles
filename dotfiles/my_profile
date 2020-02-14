@@ -6,10 +6,10 @@
 alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
 alias mkdir="mkdir -p"
 
-
 #################
 # Vim stuff
 #################
+alias vun=vim
 alias vim=nvim
 alias vi=nvim
 alias viminit="vim ~/code/dev-box/dotfiles/nvim/init.vim"
@@ -28,8 +28,9 @@ alias gds="git diff --staged"
 alias gdno="git diff --name-only"
 alias glo="git log --oneline"
 alias gh="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
-alias delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
 alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
+alias git_delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
+alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD"
 
 function git_current_branch () {
   echo "$(git rev-parse --abbrev-ref HEAD)"
@@ -37,6 +38,22 @@ function git_current_branch () {
 
 function git_force_push () {
   git push -f origin $(git_current_branch)
+}
+
+function git_pull_current_branch() {
+  git pull origin $(git_current_branch)
+}
+
+
+###############
+# Rails/Ruby stuff
+###############
+function rspec_for_branch() {
+  echo $(git_changed_files | grep _spec.rb) | xargs bundle exec rspec
+}
+
+function rubocop_for_branch() {
+  echo $(git_changed_files) | xargs bundle exec rubocop
 }
 
 
