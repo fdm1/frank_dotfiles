@@ -27,16 +27,17 @@ alias gd="git diff"
 alias gds="git diff --staged"
 alias gdno="git diff --name-only"
 alias glo="git log --oneline"
-alias gh="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
+alias ghist="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
 alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
 alias git_delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
-alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD"
+alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD | sort | uniq"
 
 function git_current_branch () {
   echo "$(git rev-parse --abbrev-ref HEAD)"
 }
 
 function git_force_push () {
+  # TODO: make sure not on master or release
   git push -f origin $(git_current_branch)
 }
 
@@ -49,11 +50,11 @@ function git_pull_current_branch() {
 # Rails/Ruby stuff
 ###############
 function rspec_for_branch() {
-  echo $(git_changed_files | grep _spec.rb) | xargs bundle exec rspec
+  bundle exec rspec $(echo $(git_changed_files | grep _spec.rb))
 }
 
 function rubocop_for_branch() {
-  echo $(git_changed_files) | xargs bundle exec rubocop
+  bundle exec rubocop $(echo $(git_changed_files))
 }
 
 
