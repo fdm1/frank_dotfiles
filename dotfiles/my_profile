@@ -28,7 +28,6 @@ alias gds="git diff --staged"
 alias gdno="git diff --name-only"
 alias glo="git log --oneline"
 alias ghist="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
-alias my_git="GIT_SSH_COMMAND=\"ssh -i ~/.ssh/gmail_git_id_rsa\" git $@"
 alias git_delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
 alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD | sort | uniq"
 
