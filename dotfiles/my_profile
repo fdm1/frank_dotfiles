@@ -30,6 +30,7 @@ alias glo="git log --oneline"
 alias ghist="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
 alias git_delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
 alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD | sort | uniq"
+alias team_prs="gh pr list --state open --label team-drive-science"
 
 function git_current_branch () {
   echo "$(git rev-parse --abbrev-ref HEAD)"
@@ -72,7 +73,7 @@ function map () {
 
 # Log in to a Cognito Identity pool
 function cognito-login() {
-  aws-logout
+  aws_logout
   ID=$(aws cognito-identity get-id --identity-pool $1 | jq .'IdentityId' -r)
   CREDENTIALS_RESPONSE=$(aws cognito-identity get-credentials-for-identity --id $ID)
   AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'AccessKeyId' -r)
@@ -85,7 +86,10 @@ function cognito-login() {
   export AWS_SECRET_ACCESS_KEY
   export AWS_SESSION_TOKEN
   STS_IDENTITY_ARN=$(aws sts get-caller-identity | jq .'Arn')
-  echo "\nSuccessfully exported the above variables and logged in as $STS_IDENTITY_ARN"
+  cat << EOF
+
+Successfully exported the above variables and logged in as $STS_IDENTITY_ARN
+EOF
 }
 
 . ~/code/root-infrastructure/sbin/tf-helpers.sh
