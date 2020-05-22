@@ -5,6 +5,7 @@
 #################
 alias reset_personal="~/my_code/gh/fdm1/frank_dotfiles/activate.sh"
 alias mkdir="mkdir -p"
+alias ls="ls -G"
 
 #################
 # Vim stuff
@@ -14,8 +15,11 @@ alias vim=nvim
 alias vi=nvim
 alias viminit="vim ~/code/dev-box/dotfiles/nvim/init.vim"
 alias vim_health="vim +CheckHealth"
-alias vim_plug="vim +PlugInstall +PlugClean! +qall"
+alias vim_plug_install="vim +PlugInstall +PlugClean! +UpdateRemotePlugins +qall"
+alias vim_plug_update="vim +PlugUpdate +PlugClean! +qall"
+alias vims="NVIM_LISTEN_ADDRESS=/tmp/nvim.sock nvim"
 
+alias pry_neovim="pry -e \"require 'neovim'; client = Neovim.attach_unix('/tmp/nvim.sock')\""
 
 #################
 # Git stuff

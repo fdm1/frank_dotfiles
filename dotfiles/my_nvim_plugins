@@ -5,3 +5,8 @@ Plug 'ajh17/VimCompletesMe'
 Plug 'Valloric/YouCompleteMe'
 Plug 'moll/vim-node'
 Plug 'flazz/vim-colorschemes'
+Plug 'ThePrimeagen/vim-be-good'
+
+Plug '~/my_code/scratch/nvim_ruby_plugin'
+
+
