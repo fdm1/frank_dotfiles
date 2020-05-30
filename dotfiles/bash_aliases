@@ -1,0 +1,48 @@
+#! /bin/bash
+#################
+# Rando stuff
+#################
+alias reset_personal="~/code/gh/fdm1/frank_dotfiles/activate.sh"
+alias mkdir="mkdir -p"
+alias ls="ls -G"
+alias l="ls -lFh"
+alias la='ls -a'
+alias ll='ls -alh'
+alias grep='grep --color'
+alias gcloud_ssh="gcloud alpha cloud-shell ssh --ssh-flag=-A"
+
+#################
+# Vim stuff
+#################
+alias vun=vim
+alias vim=nvim
+alias vi=nvim
+alias viminit="vim ~/code/gh/fdm1/frank_dotfiles/config/nvim/init.vim"
+alias vim_health="vim +CheckHealth"
+alias vim_plug_install="vim +PlugInstall +PlugClean! +UpdateRemotePlugins +qall"
+alias vim_plug_update="vim +PlugUpdate +PlugClean! +qall"
+alias vims="NVIM_LISTEN_ADDRESS=/tmp/nvim.sock nvim"
+alias pry_neovim="pry -e \"require 'neovim'; client = Neovim.attach_unix('/tmp/nvim.sock')\""GG
+
+#################
+# Git stuff
+#################
+alias gs="git status"
+alias gl="git log"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias g="git"
+alias gt="git status"
+alias gb="git branch -vv"
+alias gd="git diff"
+alias gdno="git diff --name-only"
+alias gh="git hist -20"
+alias gca="git commit --all"
+alias gcw="git commit -t <(cat $(git config commit.template) <(echo) <(echo) <(gitcoauthoredby))"
+alias gitopen='vim $(git status -s | awk '"'"'{print $2}'"'"')'
+alias gr="git reset"
+alias gs="git status"
+alias gl="git log"
+alias glo="git log --oneline"
+
+# vi:syntax=sh

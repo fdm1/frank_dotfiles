@@ -1,9 +1,0 @@
-" http://vim.wikia.com/wiki/Autocomplete_with_TAB_when_typing_words
-function! Tab_Or_Complete()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-
