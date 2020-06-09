@@ -68,4 +68,3 @@
   lineNumber = true
 [include]
   path = ~/.local.gitconfig
-

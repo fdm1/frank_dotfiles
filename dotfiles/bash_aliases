@@ -44,5 +44,3 @@ alias gr="git reset"
 alias gs="git status"
 alias gl="git log"
 alias glo="git log --oneline"
-
-# vi:syntax=sh
