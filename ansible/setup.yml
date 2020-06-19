@@ -1,0 +1,28 @@
+---
+
+- name: Setup playbook
+  hosts: all
+  tasks:
+  - name: Display OS
+    debug:
+      msg: OS is '{{ ansible_distribution|lower }}'
+
+  - name: Set OS distribution fact
+    set_fact:
+      os_fact: '{{ ansible_distribution|lower }}'
+
+  - name: Check if using WSL
+    command: wsl.exe -l
+    register: wsl_check
+
+  - name: Update OS distribution fact
+    set_fact:
+      os_fact: 'wsl_{{ os_fact}}'
+    when: wsl_check.rc == 0
+
+  - name: Display OS_fact
+    debug:
+      msg: os_fact is '{{ os_fact }}'
+
+  - name: Load OS playbook
+    include_tasks: '{{ os_fact }}-start.yml'
