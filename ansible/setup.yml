@@ -1,63 +1,16 @@
 ---
-- name: Setup playbook
+- name: Setup | Setup playbook
   hosts: all
   tasks:
-  - name: Display OS
-    debug:
-      msg: OS is '{{ ansible_distribution|lower }}'
+  - name: Setup | Set facts
+    include_tasks: set_facts.yml
 
-  - name: Set OS distribution fact
-    set_fact:
-      os: '{{ ansible_distribution|lower }}'
-
-  - name: Check if using WSL
-    command: wsl.exe -l
-    register: wsl_check_cmd
-
-  - name: Update OS distribution fact
-    set_fact:
-      os: 'wsl-{{ os}}'
-    when: wsl_check_cmd.rc == 0
-
-  - name: Register root repo directory
-    command: pwd
-    register: ansible_dir_cmd
-
-  - name: Set root_dir fact
-    set_fact:
-      root_dir: "{{ ansible_dir_cmd.stdout.split('/')[:-1] | join('/') }}"
-
-  - name: Get config dirs
-    command: ls config
-    args:
-      chdir: '{{ root_dir }}'
-    register: config_dirs_cmd
-
-  - name: Set config_dirs fact
-    set_fact:
-      config_dirs: "{{ config_dirs_cmd.stdout.split('\n') }}"
-
-  - name: Get dotfiles
-    command: ls dotfiles
-    args:
-      chdir: '{{ root_dir }}'
-    register: dotfiles_cmd
-
-  - name: Set dotfiles fact
-    set_fact:
-      dotfiles: "{{ dotfiles_cmd.stdout.split('\n') }}"
-
-  - name: Display OS
-    debug:
-      msg: os is '{{ os }}'
-
-  - name: Display config_dirs
-    debug:
-      msg: "config_dirs: {{ config_dirs }}"
-
-  - name: Display dotfiles
-    debug:
-      msg: "dotfiles: {{ dotfiles }}"
-
-  - name: Load OS playbook
-    include_tasks: '{{ os }}-start.yml'
+  - name: Setup | Load tasks
+    include_tasks: "{{ item }}.yml"
+    with_items:
+      - packages
+      - bash
+      - git
+      - nvim
+      - tmux
+      - bin_scripts

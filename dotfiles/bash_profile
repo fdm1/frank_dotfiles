@@ -49,4 +49,3 @@ alias windows_adb_start_server="windows_adb kill-server && windows_adb -a nodaem
 alias windows_adb_start_socat="socat -d -d TCP-LISTEN:5037,reuseaddr,fork TCP:$(cat /etc/resolv.conf | tail -n1 | cut -d " " -f 2):5037"
 alias windows_adb_start_device="windows_emulator @pixel2"
 alias windows_adb_stop_server="windows_adb kill-server"
-

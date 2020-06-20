@@ -1,0 +1,4 @@
+---
+- name: Bash | Setup Bash
+  debug:
+    msg: "Bash"

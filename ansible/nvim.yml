@@ -1,0 +1,4 @@
+---
+- name: Nvim | Setup Nvim
+  debug:
+    msg: "Nvim"

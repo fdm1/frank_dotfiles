@@ -1,0 +1,27 @@
+#! /bin/bash
+
+function git_current_branch () {
+  echo "$(git rev-parse --abbrev-ref HEAD)"
+}
+
+function git_force_push () {
+  # TODO: make sure not on master or release
+  git push -f origin $(git_current_branch)
+}
+
+function git_pull_current_branch() {
+  git pull origin $(git_current_branch)
+}
+
+
+###############
+# Rails/Ruby stuff
+###############
+function rspec_for_branch() {
+  bundle exec rspec $(echo $(git_changed_files | grep _spec.rb))
+}
+
+function rubocop_for_branch() {
+  bundle exec rubocop $(echo $(git_changed_files))
+}
+

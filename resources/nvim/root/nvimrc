@@ -1,0 +1,14 @@
+" Terraform lint fixing
+let terraform = expand('~/.local/bin/terraform')
+if filereadable(terraform)
+  let g:ale_fixers['tf'] = ['terraform']
+  let g:ale_terraform_fmt_executable = terraform
+end
+
+" Temp removal of rubocop since it's breaking stuff
+let g:ale_fixers['ruby'] = []
+
+" Stuff taken from: https://github.com/ThePrimeagen/vimrc/blob/master/.vimrc
+" Setup python plugin support
+let g:python3_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'
+let g:python_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'

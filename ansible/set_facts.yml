@@ -1,0 +1,48 @@
+---
+- name: Fact Gathering | Set OS distribution fact
+  set_fact:
+    os: "{{ ansible_distribution|lower }}"
+
+- name: Fact Gathering | Initialize systems_to_include fact
+  set_fact:
+    systems_to_include: "{{ ['base', os ] }}"
+
+- name: Fact Gathering | Register root repo directory
+  command: pwd
+  register: ansible_dir_cmd
+
+- name: Fact Gathering | Set root_dir fact
+  set_fact:
+    dotfiles_base_dir: "{{ ansible_dir_cmd.stdout.split('/')[:-1] | join('/') }}"
+
+- name: Fact Gathering | Check if using WSL
+  command: wsl.exe -l
+  register: wsl_check_cmd
+  ignore_errors: true
+
+- name: Fact Gathering | Add WSL to systems_to_include if WSL
+  set_fact:
+    systems_to_include: "{{ systems_to_include + ['wsl'] }}"
+  when: wsl_check_cmd.rc == 0
+
+# TODO: Check if on root computer (look for ~/code/root-monorepo dir)
+# - name: Fact Gathering | Check if using WSL
+#   command: wsl.exe -l
+#   register: wsl_check_cmd
+#
+# - name: Fact Gathering | Add WSL to systems_to_include if WSL
+#   set_fact:
+#     systems_to_include: "{{ systems_to_include + ['wsl'] }}"
+#   when: wsl_check_cmd.rc == 0
+
+- name: Fact Gathering | Display OS
+  debug:
+    msg: "os: {{ os }}"
+
+- name: Fact Gathering | Dotfiles base dir
+  debug:
+    msg: "dotfiles_base_dir: {{ dotfiles_base_dir }}"
+
+- name: Fact Gathering | Display systems_to_include
+  debug:
+    msg: "systems_to_include: {{ systems_to_include }}"

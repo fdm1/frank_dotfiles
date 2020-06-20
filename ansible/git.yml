@@ -1,0 +1,14 @@
+---
+- name: Git | Check if my_gitconfig is sources in ~/.gitconfig
+  shell: grep -c "path = ~/.my_gitconfig" ~/.gitconfig
+  register: my_gitconfig_grep_result
+  ignore_errors: true
+
+- name: Insert/Update HTML surrounded by custom markers after <body> line
+  blockinfile:
+    path: ~/.gitconfig
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      [include]
+        path = ~/.my_gitconfig
+  when: not my_gitconfig_grep_result.rc == 0
