@@ -5,12 +5,5 @@
   - name: Setup | Set facts
     include_tasks: set_facts.yml
 
-  - name: Setup | Load config file tasks
-    include_tasks: "config_files/{{ item }}.yml"
-    with_items:
-      # - packages
-      - bash
-      - git
-      - nvim
-      - tmux
-      # - bin_scripts
+  - name: Setup | Setup config files
+    include_tasks: "config_files/start.yml"

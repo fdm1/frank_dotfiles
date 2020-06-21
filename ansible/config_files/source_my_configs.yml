@@ -1,0 +1,19 @@
+---
+# TODO: Create base ~/.bash_profile if doesn't exist
+
+- name: "{{ name }} Config Files | Ensure {{ config_file }} exists"
+  file:
+    path: "{{ config_file }}"
+    state: touch
+
+- name: "{{ name }} Config Files | Check if {{ my_config_file }} is already sourced in {{ config_file }}"
+  shell: 'grep -c "{{ my_config_file }}" {{ config_file }} || true'
+  register: grep_result
+  ignore_errors: true
+
+- name: "{{ name }} Config Files | Source {{ my_config_file }} in {{ config_file }}"
+  blockinfile:
+    path: "{{ config_file }}"
+    marker: "{{ comment_char }} {mark} ANSIBLE - SOURCE MY CONFIG"
+    block: "{{ config_block }}"
+  when: grep_result.stdout == "0"
