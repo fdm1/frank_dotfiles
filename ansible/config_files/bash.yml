@@ -6,3 +6,13 @@
     block: |
       export PATH=$PATH:{{ dotfiles_base_dir }}/resources/bin_scripts/{{ item }}/
   with_items: "{{ systems_to_include }}"
+
+- name: Bash Config Setup | Source system-specific dotfiles
+  blockinfile:
+    path: ~/.my_profile
+    marker: "# {mark} ANSIBLE - SOURCE DOTFILES FOR {{ item }}"
+    block: |
+      if [ -d "{{ dotfiles_base_dir }}/resources/bash/{{ item }}" ] ; then
+        for i in {{ dotfiles_base_dir }}/resources/bash/{{ item }}/*; do source $i; done
+      fi
+  with_items: "{{ systems_to_include }}"
