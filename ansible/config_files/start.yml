@@ -40,5 +40,8 @@
       config_block: |
         if-shell 'test -f ~/.my_tmux.conf' 'source ~/.my_tmux.conf'
 
-- name: Config Files | Load bash-specific tasks
-  include_tasks: "config_files/bash.yml"
+- name: Config Files | Load tasks for specifc config tasks
+  include_tasks: "config_files/{{ item }}.yml"
+  with_items:
+  - bash
+  - git

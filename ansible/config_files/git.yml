@@ -1,0 +1,9 @@
+---
+- name: Git Config Setup | Source system-specific dotfiles
+  blockinfile:
+    path: ~/.my_gitconfig
+    marker: "# {mark} ANSIBLE - SOURCE GITCONFIG FOR {{ item }}"
+    block: |
+      [include]
+        path = {{ dotfiles_base_dir }}/resources/git/{{ item }}/gitconfig
+  with_items: "{{ systems_to_include }}"

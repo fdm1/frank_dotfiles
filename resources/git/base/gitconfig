@@ -66,5 +66,3 @@
   autosquash = true
 [grep]
   lineNumber = true
-[include]
-  path = ~/.my_gitconfig
