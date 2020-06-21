@@ -6,6 +6,11 @@
     path: "{{ config_file }}"
     state: touch
 
+- name: "{{ name }} Config Files | Ensure {{ my_config_file }} exists"
+  file:
+    path: "{{ my_config_file }}"
+    state: touch
+
 - name: "{{ name }} Config Files | Check if {{ my_config_file }} is already sourced in {{ config_file }}"
   shell: 'grep -c "{{ my_config_file }}" {{ config_file }} || true'
   register: grep_result

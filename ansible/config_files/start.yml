@@ -39,3 +39,6 @@
       comment_char: "#"
       config_block: |
         if-shell 'test -f ~/.my_tmux.conf' 'source ~/.my_tmux.conf'
+
+- name: Config Files | Load bash-specific tasks
+  include_tasks: "config_files/bash.yml"
