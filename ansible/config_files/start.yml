@@ -45,3 +45,5 @@
   with_items:
   - bash
   - git
+  - tmux
+  - nvim

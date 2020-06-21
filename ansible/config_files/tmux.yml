@@ -1,0 +1,8 @@
+---
+- name: Tmux Config Setup | Source system-specific tmux configs
+  blockinfile:
+    path: ~/.my_tmux.conf
+    marker: "\" {mark} ANSIBLE - SOURCE tmux.conf FOR {{ item }}"
+    block: |
+      if-shell 'test -f {{ dotfiles_base_dir }}/resources/tmux/{{ item }}/tmux.conf' 'source {{ dotfiles_base_dir }}/resources/tmux/{{ item }}/tmux.con'
+  with_items: "{{ systems_to_include }}"
