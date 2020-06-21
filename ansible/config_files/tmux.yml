@@ -1,0 +1,15 @@
+---
+# TODO: Create base ~/.tmux.conf if doesn't exist
+
+- name: Tmux Configs | Check if ~/.my_tmux.conf is sourced in ~/.tmux.conf
+  shell: grep -c "source ~/.my_tmux.conf" ~/.tmux.conf || true
+  register: my_tmux_conf_grep_result
+  ignore_errors: true
+
+- name: Tmux Configs | Source ~/.my_tmux.conf in ~/.tmux.conf
+  blockinfile:
+    path: ~/.tmux.conf
+    marker: "# {mark} ANSIBLE - SOURCE MY CONFIG"
+    block: |
+      if-shell 'test -f ~/.my_tmux.conf' 'source ~/.my_tmux.conf'
+  when: my_tmux_conf_grep_result.stdout == "0"

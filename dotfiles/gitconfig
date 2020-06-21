@@ -68,7 +68,7 @@
   lineNumber = true
 [include]
   path = ~/.local.gitconfig
-# BEGIN ANSIBLE MANAGED BLOCK
+# BEGIN ANSIBLE - SOURCE MY CONFIG
 [include]
   path = ~/.my_gitconfig
-# END ANSIBLE MANAGED BLOCK
+# END ANSIBLE - SOURCE MY CONFIG
