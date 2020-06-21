@@ -293,3 +293,8 @@ hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
 if filereadable(expand("~/.my_nvimrc"))
   source $HOME/.my_nvimrc
 endif
+" BEGIN ANSIBLE MANAGED BLOCK
+if filereadable(expand("~/.my_nvimrc"))
+  source $HOME/.my_nvimrc
+endif
+" END ANSIBLE MANAGED BLOCK

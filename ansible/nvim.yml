@@ -1,4 +1,17 @@
 ---
-- name: Nvim | Setup Nvim
-  debug:
-    msg: "Nvim"
+# TODO: Create base ~/.config/nvim/init.vim if doesn't exist
+
+- name: Nvim | Check if ~/.my_nvimrc is sourced in ~/.config/nvim/init.vim
+  shell: grep -c "if filereadable(expand(\"~/.my_nvimrc\"))" ~/.config/nvim/init.vim
+  register: my_nvimrc_grep_result
+  ignore_errors: true
+
+- name: Nvim | Source ~/.my_nvimrc in ~/.config/nvim/init.vim
+  blockinfile:
+    path: ~/.config/nvim/init.vim
+    marker: "\" {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      if filereadable(expand("~/.my_nvimrc"))
+        source $HOME/.my_nvimrc
+      endif
+  when: not my_nvimrc_grep_result.rc == 0

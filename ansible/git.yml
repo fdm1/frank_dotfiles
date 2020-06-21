@@ -1,10 +1,12 @@
 ---
-- name: Git | Check if my_gitconfig is sources in ~/.gitconfig
+# TODO: Create base ~/.gitconfig if doesn't exist
+
+- name: Git | Check if ~/.my_gitconfig is sourced in ~/.gitconfig
   shell: grep -c "path = ~/.my_gitconfig" ~/.gitconfig
   register: my_gitconfig_grep_result
   ignore_errors: true
 
-- name: Insert/Update HTML surrounded by custom markers after <body> line
+- name: Git | Source ~/.my_gitconfig in ~/.gitconfig
   blockinfile:
     path: ~/.gitconfig
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
