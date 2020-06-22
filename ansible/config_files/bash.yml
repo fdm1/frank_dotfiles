@@ -2,17 +2,21 @@
 - name: Bash Config Setup | Add bin scripts to PATH
   blockinfile:
     path: ~/.my_profile
-    marker: "# {mark} ANSIBLE - ADD {{ item }} BIN SCRIPTS TO PATH"
+    marker: "# {mark} ANSIBLE - ADD {{ bash_bin_scripts_item }} BIN SCRIPTS TO PATH"
     block: |
-      export PATH=$PATH:{{ dotfiles_base_dir }}/resources/bin_scripts/{{ item }}/
-  with_items: "{{ systems_to_include }}"
+      export PATH=$PATH:{{ dotfiles_base_dir }}/resources/bin_scripts/{{ bash_bin_scripts_item }}/
+  loop: "{{ systems_to_include }}"
+  loop_control:
+    loop_var: bash_bin_scripts_item
 
 - name: Bash Config Setup | Source system-specific dotfiles
   blockinfile:
     path: ~/.my_profile
-    marker: "# {mark} ANSIBLE - SOURCE DOTFILES FOR {{ item }}"
+    marker: "# {mark} ANSIBLE - SOURCE DOTFILES FOR {{ bash_source_item }}"
     block: |
-      if [ -d "{{ dotfiles_base_dir }}/resources/bash/{{ item }}" ] ; then
-        for i in {{ dotfiles_base_dir }}/resources/bash/{{ item }}/*; do source $i; done
+      if [ -d "{{ dotfiles_base_dir }}/resources/bash/{{ bash_source_item }}" ] ; then
+        for i in {{ dotfiles_base_dir }}/resources/bash/{{ bash_source_item }}/*; do source $i; done
       fi
-  with_items: "{{ systems_to_include }}"
+  loop: "{{ systems_to_include }}"
+  loop_control:
+    loop_var: bash_source_item

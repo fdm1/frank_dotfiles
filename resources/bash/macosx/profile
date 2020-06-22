@@ -1,0 +1,6 @@
+#! /bin/bash
+. ~/code/root-infrastructure/sbin/tf-helpers.sh
+
+if [ -e "$HOME/.my_envvars" ]; then
+  source "$HOME/.my_envvars"
+fi
