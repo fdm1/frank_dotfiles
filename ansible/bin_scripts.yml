@@ -1,4 +1,0 @@
----
-- name: Bin | Setup Bin
-  debug:
-    msg: "Bin"

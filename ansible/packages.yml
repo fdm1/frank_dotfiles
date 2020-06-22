@@ -1,4 +1,0 @@
----
-- name: Packages | Setup Packages
-  debug:
-    msg: "Packages"
