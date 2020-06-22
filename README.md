@@ -1,27 +1,25 @@
-This contains extra dotfiles, including 'local' vimrc/vim plugins.
-The vim additions are meant to be loaded along side https://github.com/braintreeps/vim_dotfiles
-
-
 Install
 -------
 
+Install ansible (however necessary)
+
 ```
-$ git clone https://github.com/fdm1/frank_dotfiles
-$ ./frank_dotfiles/activate.sh
+./run_ansible.sh
 ```
 
-This will symlink all personal files to the root directory, clone braintreeps/vim_dotfiles (if needed), pull that repo,
-and activate/install everything.
+This will ensure `~/.my_{config_file_name}` is sourced in the main config files (e.g. `~/.bashrc`)
+
+The `~/.my_*` variants will then source all the individual files needed based on the computer being used (determined by OS), effectively composing a total configuration. This allows for things like Windows (with WSL2) to have both the basic Ubuntu configuration, plus some configuration specific to my WSL2 dev environment, and any other specific combination of desired configs.
 
 Requirements / Setup
 --------------------
 
 Requires:
-* git
-* sudo
+* ansible
 
-This will install/update the following packages (if needed):
-* vim (upgrade to 8.0+)
-* tmux
-* wget
-* curl
+Limitations / TODOS
+-------------------
+
+- This currently does not install any packages. It assumes you have nvim, git, and tmux already installed. That will come later.
+
+- Eventually separate `macosx` OS with `root` so I can have personal and work-specific mac configs (if I ever have a personal mac)
