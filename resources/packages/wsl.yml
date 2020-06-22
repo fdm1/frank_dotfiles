@@ -1,0 +1,13 @@
+---
+apt-get:
+  - nvim
+  - nodejs
+  - lib32z1
+  - openjdk-8-jdk
+  - gradle
+  - zip
+  - socat
+  - net-tools
+
+- pyenv
+- android sdk

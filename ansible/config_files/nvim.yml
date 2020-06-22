@@ -1,0 +1,33 @@
+---
+- name: Nvim Config Setup | Source system-specific dotfiles
+  blockinfile:
+    path: ~/.my_nvimrc
+    marker: "\" {mark} ANSIBLE - SOURCE nvimrc FOR {{ nvimrc_item }}"
+    block: |
+      if filereadable(expand("{{ dotfiles_base_dir }}/resources/nvim/{{ nvimrc_item }}/nvimrc"))
+        source {{ dotfiles_base_dir }}/resources/nvim/{{ nvimrc_item }}/nvimrc
+      endif
+  loop: "{{ systems_to_include }}"
+  loop_control:
+    loop_var: nvimrc_item
+
+- name: Nvim Config Setup | Ensure ~/.my_nvim_plugins exists
+  file:
+    path: ~/.my_nvim_plugins
+    state: touch
+
+- name: Nvim Config Setup | Source system-specific plugins
+  blockinfile:
+    path: ~/.my_nvim_plugins
+    marker: "\" {mark} ANSIBLE - SOURCE nvim_plugins FOR {{ nvim_plugin_item }}"
+    block: |
+      if filereadable(expand("{{ dotfiles_base_dir }}/resources/nvim/{{ nvim_plugin_item }}/nvim_plugins"))
+        source {{ dotfiles_base_dir }}/resources/nvim/{{ nvim_plugin_item }}/nvim_plugins
+      endif
+  loop: "{{ systems_to_include }}"
+  loop_control:
+    loop_var: nvim_plugin_item
+
+- name: Nvim | Install plugins
+  command: nvim +PlugInstall +PlugClean! +UpdateRemotePlugins +qall
+  ignore_errors: true

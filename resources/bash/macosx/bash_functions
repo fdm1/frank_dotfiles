@@ -1,0 +1,26 @@
+#! /bin/bash
+# Parse a trip file and output start time, end time, and a Google Maps URL with the start and end location
+function map () {
+  aws s3 cp $1 - | zcat |\
+  jq '.locations | first.timestamp |= todateiso8601 | last.timestamp |= todateiso8601 | "Start: \(first.timestamp)\nEnd: \(last.timestamp)\nhttps://google.com/maps/dir/\(first.latitude),\(first.longitude)/\(last.latitude),\(last.longitude)"' -r
+}
+
+# Log in to a Cognito Identity pool
+function cognito-login() {
+  aws_logout
+  ID=$(aws cognito-identity get-id --identity-pool $1 | jq .'IdentityId' -r)
+  CREDENTIALS_RESPONSE=$(aws cognito-identity get-credentials-for-identity --id $ID)
+  AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'AccessKeyId' -r)
+  AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'SecretKey' -r)
+  AWS_SESSION_TOKEN=$(echo $CREDENTIALS_RESPONSE | jq .'Credentials'.'SessionToken' -r)
+  echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+  echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+  echo "export AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
+  export AWS_ACCESS_KEY_ID
+  export AWS_SECRET_ACCESS_KEY
+  export AWS_SESSION_TOKEN
+  STS_IDENTITY_ARN=$(aws sts get-caller-identity | jq .'Arn')
+  cat << EOF
+Successfully exported the above variables and logged in as $STS_IDENTITY_ARN
+EOF
+}

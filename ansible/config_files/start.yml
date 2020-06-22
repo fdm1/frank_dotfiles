@@ -1,0 +1,54 @@
+---
+- name: Config Files | Load tasks to source my configs
+  include_tasks: "config_files/source_my_configs.yml"
+  vars:
+    name: "{{ config_source_item.name }}"
+    config_file: "{{ config_source_item.config_file }}"
+    my_config_file: "{{ config_source_item.my_config_file }}"
+    comment_char: "{{ config_source_item.comment_char }}"
+    grep_string: "{{ config_source_item.grep_string if config_source_item.grep_string is defined else config_source_item.my_config_file}}"
+    config_block: "{{ config_source_item.config_block }}"
+
+  loop:
+    - name: Bash
+      config_file: ~/.bashrc
+      my_config_file: $HOME/.my_profile
+      grep_string: .my_profile
+      comment_char: "#"
+      config_block: |
+        if [ -f ~/.my_profile ]; then
+            . ~/.my_profile
+        fi
+    - name: Git
+      config_file: ~/.gitconfig
+      my_config_file: ~/.my_gitconfig
+      comment_char: "#"
+      config_block: |
+        [include]
+          path = ~/.my_gitconfig
+    - name: Nvim
+      config_file: ~/.config/nvim/init.vim
+      my_config_file: ~/.my_nvimrc
+      comment_char: "\""
+      config_block: |
+        if filereadable(expand("~/.my_nvimrc"))
+          source $HOME/.my_nvimrc
+        endif
+    - name: Tmux
+      config_file: ~/.tmux.conf
+      my_config_file: ~/.my_tmux.conf
+      comment_char: "#"
+      config_block: |
+        if-shell 'test -f ~/.my_tmux.conf' 'source ~/.my_tmux.conf'
+  loop_control:
+    loop_var: config_source_item
+
+- name: Config Files | Load tasks for specifc config tasks
+  include_tasks: "config_files/{{ specific_config_item }}.yml"
+  loop:
+  - bash
+  - git
+  - tmux
+  - nvim
+  loop_control:
+    loop_var: specific_config_item

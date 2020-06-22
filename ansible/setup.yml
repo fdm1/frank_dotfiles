@@ -1,0 +1,9 @@
+---
+- name: Setup | Setup playbook
+  hosts: all
+  tasks:
+  - name: Setup | Set facts
+    include_tasks: set_facts.yml
+
+  - name: Setup | Setup config files
+    include_tasks: "config_files/start.yml"

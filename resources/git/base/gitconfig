@@ -48,7 +48,7 @@
 	tool = vimdiff
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = vim
+	editor = nvim
   autocrlf = input
 [diff]
 	tool = vimdiff
@@ -66,5 +66,3 @@
   autosquash = true
 [grep]
   lineNumber = true
-[include]
-  path = ~/.local.gitconfig
