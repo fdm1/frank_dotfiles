@@ -24,3 +24,11 @@ function cognito-login() {
 Successfully exported the above variables and logged in as $STS_IDENTITY_ARN
 EOF
 }
+
+function open-parsnip-deeplink-ios() {
+  xcrun simctl openurl booted https://dashboard.staging.root-enterprise.com/clients/dd69a2e5ba404dfe4df13c344/drivers/confirmation?code=$1
+}
+
+function open-parsnip-deeplink-android() {
+  adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://dashboard.staging.root-enterprise.com/clients/dd69a2e5ba404dfe4df13c344/drivers/confirmation?code=$1\"
+}

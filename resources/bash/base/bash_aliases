@@ -37,7 +37,6 @@ alias gt="git status"
 alias gb="git branch -vv"
 alias gd="git diff"
 alias gdno="git diff --name-only"
-alias gh="git hist -20"
 alias gca="git commit --all"
 alias gcw="git commit -t <(cat $(git config commit.template) <(echo) <(echo) <(gitcoauthoredby))"
 alias gitopen='vim $(git status -s | awk '"'"'{print $2}'"'"')'

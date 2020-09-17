@@ -10,4 +10,3 @@ alias team_prs="gh pr list --state open --label team-drive-science"
 ###############
 alias cddevbox="cd ~/code/dev-box"
 alias fix_fork_dbdo="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES dbdo"
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES

@@ -25,3 +25,15 @@ function rubocop_for_branch() {
   bundle exec rubocop $(echo $(git_changed_files))
 }
 
+
+alias gh_cli=$(which gh)
+function gh() {
+  if [[ $(pwd) =~ $(echo ~)\/my_code ]]; then
+    GITHUB_TOKEN=$PERSONAL_GH_CLI_TOKEN
+  else
+    GITHUB_TOKEN=$WORK_GH_CLI_TOKEN
+  fi
+
+  GITHUB_TOKEN=$GITHUB_TOKEN gh_cli $@
+  unset GITHUB_TOKEN
+}
