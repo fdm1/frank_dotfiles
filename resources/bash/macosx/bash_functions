@@ -26,9 +26,18 @@ EOF
 }
 
 function open-parsnip-deeplink-ios() {
-  xcrun simctl openurl booted https://dashboard.staging.root-enterprise.com/clients/dd69a2e5ba404dfe4df13c344/drivers/confirmation?code=$1
+  CLIENT_ID=$2
+  xcrun simctl openurl booted https://dashboard.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1
 }
 
 function open-parsnip-deeplink-android() {
-  adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://dashboard.staging.root-enterprise.com/clients/dd69a2e5ba404dfe4df13c344/drivers/confirmation?code=$1\"
+  CLIENT_ID=$2
+  adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://dashboard.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1\"
+}
+
+function current-parsnip-client-prompt() {
+  if [[ $(basename $(pwd)) == "parsnip-mobile" ]]; then
+    PARSNIP_CLIENT=$(cat .parsnip/current/client_config.yml | grep display_name | sed -e s/^[^\']*\'//g | sed -e s/\'//g)
+    echo " (${PARSNIP_CLIENT})"
+  fi
 }
