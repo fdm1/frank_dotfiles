@@ -27,12 +27,18 @@ EOF
 
 function open-parsnip-deeplink-ios() {
   CLIENT_ID=$2
-  xcrun simctl openurl booted https://dashboard.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1
+  xcrun simctl openurl booted https://drivers.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1
+}
+
+function open-parsnip-campaign-deeplink-ios() {
+  CLIENT_ID=$2
+  xcrun simctl openurl booted https://drivers.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/campaign?campaign_id=$1
 }
 
 function open-parsnip-deeplink-android() {
   CLIENT_ID=$2
-  adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://dashboard.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1\"
+  adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://drivers.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1\"
+  # adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d \"https://dashboard.staging.root-enterprise.com/clients/${CLIENT_ID:=$VOYAGER_CLIENT_ID}/drivers/confirmation?code=$1\"
 }
 
 function current-parsnip-client-prompt() {

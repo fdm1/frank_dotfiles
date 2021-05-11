@@ -2,3 +2,5 @@
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 export GIT_PROMPT_END='$(current-parsnip-client-prompt) $ '
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0 --failfast 2> /dev/null)
+
