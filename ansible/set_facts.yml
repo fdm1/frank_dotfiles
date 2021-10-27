@@ -25,7 +25,7 @@
     systems_to_include: "{{ systems_to_include + ['wsl'] }}"
   when: wsl_check_cmd.rc == 0
 
-# TODO: macosx may not be root
+# TODO: macosx is not only work
 
 - name: Fact Gathering | Display OS
   debug:

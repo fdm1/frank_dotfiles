@@ -4,12 +4,12 @@
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
 
 # bash git prompt
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-  GIT_PROMPT_ONLY_IN_REPO=1
-  source $HOME/.bash-git-prompt/gitprompt.sh
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
 fi
 
 PROMPT_USER_AND_HOST='\[\033[01;32m\]\u@\h'
@@ -17,3 +17,6 @@ PROMPT_PWD='\[\033[01;34m\]\w\[\033[00m\]'
 GIT_PROMPT_START="${PROMPT_USER_AND_HOST}:${PROMPT_PWD}"
 GIT_PROMPT_END=' $ '
 
+if [ -e "$HOME/.my_envvars" ]; then
+  source "$HOME/.my_envvars"
+fi

@@ -1,3 +1,10 @@
+
+call plug#begin('~/.config/nvim/autoload/plugged')
+
+source ~/.my_nvim_plugins
+
+call plug#end()
+
 map <silent> <LocalLeader>ag :Ag<CR>
 map <silent> <LocalLeader>cc :TComment<CR>
 map <silent> <LocalLeader>uc :TComment<CR>
@@ -69,7 +76,7 @@ au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 autocmd BufEnter *.tsx set filetype=typescript
-colorscheme dim
+" colorscheme dim
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"

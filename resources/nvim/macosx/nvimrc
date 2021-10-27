@@ -6,7 +6,7 @@ if filereadable(terraform)
 end
 
 " Temp removal of rubocop since it's breaking stuff
-let g:ale_fixers['ruby'] = []
+" let g:ale_fixers['ruby'] = []
 
 " Stuff taken from: https://github.com/ThePrimeagen/vimrc/blob/master/.vimrc
 " Setup python plugin support
