@@ -22,4 +22,14 @@ Limitations / TODOS
 
 - This currently does not install any packages. It assumes you have nvim, git, and tmux already installed. That will come later.
 
-- Eventually separate `macosx` OS with `root` so I can have personal and work-specific mac configs (if I ever have a personal mac)
+- install homebrew
+- brew install/update
+  - neovim
+  - pyenv
+  - git-bash-prompt
+  - tmux
+  - bash
+- add Base init.vim file
+- setup vim plug autoload stuff
+
+- Separate `macosx` OS with `root` so I can have personal and work-specific mac configs

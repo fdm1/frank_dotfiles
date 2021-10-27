@@ -5,18 +5,56 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 # eval "$(pyenv init -)"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
-# bash git prompt
-if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-    GIT_PROMPT_ONLY_IN_REPO=1
-    source $HOME/.bash-git-prompt/gitprompt.sh
-fi
+# eval "$(rbenv init -)"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
+
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 
 PROMPT_USER_AND_HOST='\[\033[01;32m\]\u@\h'
+PROMPT_TIME='\[\033[01;32m\]\t'
 PROMPT_PWD='\[\033[01;34m\]\w\[\033[00m\]'
-GIT_PROMPT_START="${PROMPT_USER_AND_HOST}:${PROMPT_PWD}"
+GIT_PROMPT_START="${PROMPT_TIME}: ${PROMPT_PWD}"
 GIT_PROMPT_END=' $ '
+command -v brew 2>&1 > /dev/null
+BREW_INSTALLED=$?
+if [ $BREW_INSTALLED -eq 0 ]; then
+  if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+    __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
+    source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+  fi
+else
+  if [ -x $HOME/bin/gitprompt.sh ]; then
+    __GIT_PROMPT_DIR=$HOME/bin/bash-git-prompt
+    source $HOME/bin/gitprompt.sh
+  fi
+fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if [ -d $SHELL_COMPLETION_DIR ]; then
+  if [ `ls -1 $SHELL_COMPLETION_DIR/*.bash 2>/dev/null | wc -l` -gt 0 ]; then
+    for rcfile in $SHELL_COMPLETION_DIR/*.bash; do
+      . $rcfile
+    done
+  fi
+fi
+
+
+
+
+
+
 
 if [ -e "$HOME/.my_envvars" ]; then
   source "$HOME/.my_envvars"
 fi
+
+if [ -e "$HOME/.my_envvars" ]; then
+  source "$HOME/.my_envvars"
+fi
+
