@@ -53,4 +53,12 @@ alias gdno="git diff --name-only"
 alias glo="git log --oneline"
 alias ghist="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %s %C(green)(%cr) %C(blue)<%an>%C(magenta)%d%C(reset)' -20"
 alias git_delete_local_branches="git branch | grep -v 'master\|release' | grep -v '*' | xargs git branch -D"
-alias git_changed_files="git whatchanged --relative --name-only --pretty='' origin..HEAD | sort | uniq"
+alias git_changed_files="git diff --diff-filter=d --name-only --relative origin..HEAD | sort | uniq"
+alias git_changed_files_and_local="{ git_changed_files & git diff --diff-filter=d --name-only --relative HEAD; } | sort | uniq"
+
+alias be="bundle exec"
+alias bi="bundle install"
+alias emulator='$ANDROID_HOME/emulator/emulator'
+alias openandroidstudio="aws-login eng && open /Applications/Android\ Studio.app"
+alias openintellijidea="aws-login eng && open /Applications/IntelliJ\ IDEA.app"
+alias rc="bundle exec rails c"

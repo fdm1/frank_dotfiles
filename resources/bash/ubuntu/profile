@@ -18,10 +18,10 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+#
+# eval "$(pyenv init -)"
 
 # bash git prompt
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then

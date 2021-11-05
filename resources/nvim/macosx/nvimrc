@@ -10,5 +10,7 @@ end
 
 " Stuff taken from: https://github.com/ThePrimeagen/vimrc/blob/master/.vimrc
 " Setup python plugin support
-let g:python3_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'
-let g:python_host_prog='/Users/frankmassi/.local/share/virtualenvs/frank_dotfiles-wbykuDHZ/bin/python'
+let g:python3_host_prog='/Users/frankmassi/.pyenv/versions/3.8.2/envs/nvim/bin/python'
+let g:python_host_prog='/Users/frankmassi/.pyenv/versions/3.8.2/envs/nvim/bin/python'
+
+let g:loaded_perl_provider = 0
