@@ -1,6 +1,36 @@
 call plug#begin('~/.config/nvim/plugged')
-  if !empty(glob("$HOME/.my_nvim_plugins"))
-    source $HOME/.my_nvim_plugins
+  Plug 'chaoren/vim-wordmotion', {'commit': '23fc891'}
+  Plug 'ctrlpvim/ctrlp.vim', {'tag': '1.79'}
+  Plug 'farmergreg/vim-lastplace', {'tag': 'v3.1.0'}
+  Plug 'janko-m/vim-test', {'commit': '7e5e118'}
+  Plug 'jlanzarotta/bufexplorer', {'tag': 'v7.4.6'}
+  Plug 'jtratner/vim-flavored-markdown', {'commit': '4a70aa2'}
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'kassio/neoterm', {'commit': '372401281a45eb1389de523440ed38df2c059515'}
+  Plug 'majutsushi/tagbar', {'commit': 'bef1fa4'}
+  Plug 'mileszs/ack.vim', {'tag': '1.0.9'}
+  Plug 'michaeljsmith/vim-indent-object', {'tag': '1.1.2'}
+  Plug 'yuezk/vim-js', {'tag': 'v1.0.1'}
+  Plug 'posva/vim-vue', {'commit': 'e306929'}
+  Plug 'scrooloose/nerdtree', {'tag': '5.0.0'}
+  Plug 'tommcdo/vim-exchange', {'commit': '05d82b8'}
+  Plug 'tomtom/tcomment_vim', {'tag': '3.08'}
+  Plug 'tpope/vim-endwise', {'commit': '0067ced'}
+  Plug 'tpope/vim-fugitive', {'tag': 'v3.0'}
+  Plug 'tpope/vim-rhubarb', {'commit': '75ad917e4978b4620c3b0eff1722880d2d53a9f4'}
+  Plug 'tpope/vim-surround', {'tag': 'v2.1'}
+  Plug 'tpope/vim-projectionist', { 'tag': 'v1.3' }
+  Plug 'vim-airline/vim-airline', {'tag': 'v0.8'}
+  Plug 'vim-airline/vim-airline-themes', {'commit': '13bad30'}
+  Plug 'vim-scripts/argtextobj.vim', {'tag': '1.1.1'}
+  Plug 'w0rp/ale', {'commit': 'e4faf82'}
+  Plug 'maxmellon/vim-jsx-pretty', {'tag': 'v3.0.0'}
+  Plug 'airblade/vim-gitgutter', { 'commit': 'c2651ae' }
+  Plug 'morhetz/gruvbox'
+  Plug 'jeffkreeftmeijer/vim-dim'
+  if !empty(glob("$HOME/.config/nvim/nvim_plugins.vim"))
+    source $HOME/.config/nvim/nvim_plugins.vim
   endif
 call plug#end()
 
@@ -36,6 +66,8 @@ autocmd FileType ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
 function! ClearTerminalTransform(cmd) abort
   return 'clear;'.a:cmd
 endfunction
+
+colorscheme Tomorrow-Night
 
 imap <C-L> <SPACE>=><SPACE>
 
@@ -81,6 +113,9 @@ nmap <silent> ]q :cnext<CR>
 nmap <silent> [Q :cfirst<CR>
 nmap <silent> ]Q :clast<CR>
 
+" easy exit for vim/fzf stuck in terminal mode
+tnoremap <Esc> <C-\><C-n>:q!<CR>
+
 let g:neoterm_default_mod = 'rightbelow'
 let g:neoterm_size = '20'
 let g:test#custom_transformations = {'clear': function('ClearTerminalTransform')}
@@ -92,7 +127,7 @@ let g:ctrlp_max_files = 40000
 
 " Allows javascript tests to run
 let test#javascript#mocha#executable = 'yarn test:single'
-let test#javascript#jest#executable = 'cdweb && yarn test:single'
+let test#javascript#jest#executable = 'yarn test:single'
 
 " File and folder CtrlP exclusions. See https://github.com/kien/ctrlp.vim
 let g:ctrlp_custom_ignore = {
@@ -155,108 +190,8 @@ let g:gitgutter_enabled = 0
 " ignore certain filetypes in NERDTree
 let NERDTreeIgnore=['\.tfplan$']
 
-map <silent> <LocalLeader>ag :Ag<CR>
-map <silent> <LocalLeader>cc :TComment<CR>
-map <silent> <LocalLeader>uc :TComment<CR>
-map <silent> <leader>ff :Files<CR>
-map <silent> <leader>rn :set rnu!<CR>
+" ###### PERSONAL CONFIG ######
 
-" tmux-ify test runners
-nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=vimux<CR>
-nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=vimux<CR>
-nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=vimux<CR>
-
-" format python files with black if its installed in a local pipenv
-if filereadable('Pipfile.lock')
-  let black = system('grep \"black\" Pipfile.lock -q')
-  if v:shell_error == 0
-    let g:ale_fixers['python'] = ['black']
-    let g:ale_python_black_auto_pipenv = 1
-  endif
-end
-
-" Terraform lint fixing
-let terraform = expand('~/.local/bin/terraform')
-if filereadable(terraform)
-  let g:ale_fixers['tf'] = ['terraform']
-  let g:ale_terraform_fmt_executable = terraform
-end
-
-" Temp removal of rubocop since it's breaking stuff
-let g:ale_fixers['ruby'] = []
-
-" Alias commands for fat-fingering
-fun! SetupCommandAlias(from, to)
-  exec 'cnoreabbrev <expr> '.a:from
-        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
-        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfun
-call SetupCommandAlias("W","w")
-
-let NERDTreeIgnore=['\.pyc$', '\.o$', '\.class$', '\.lo$', 'tmp', '\.tfplan$']
-
-au BufRead,BufNewFile Podfile,*.podspec setfiletype ruby
-au BufRead,BufNewFile .*vim* setfiletype vim
-
-" Zoom / Restore window.
-function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nmap <silent> <LocalLeader>zz :ZoomToggle<CR>
-
-
-" Stuff taken from: https://github.com/ThePrimeagen/vimrc/blob/master/.vimrc
-" Setup python plugin support
-let g:python3_host_prog='/Users/frankmassi/.pyenv/versions/3.8.2/envs/nvim/bin/python'
-let g:python_host_prog='/Users/frankmassi/.pyenv/versions/3.8.2/envs/nvim/bin/python'
-
-" You Complete Me
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-let g:ycm_max_diagnostics_to_display=0
-" DEBUG STUFFS
-let g:ycm_server_keep_logfiles = 1
-let g:ycm_server_log_level = 'debug'
-let g:ycm_warning_symbol = '.'
-let g:ycm_error_symbol = '..'
-let g:ycm_server_use_vim_stdout = 1
-
-" Autocompletion
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-autocmd BufEnter *.tsx set filetype=typescript
-colorscheme dim
-
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" fixes glitch? in colors when using vim with tmux
-set background=dark
-set t_Co=256
-set termguicolors
-
-" Enable hybrid relative numbers by default
-set rnu
-
-" Alacritty stuff?
-hi! Normal ctermbg=NONE guibg=NONE 
-hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
-
-let g:loaded_perl_provider = 0
-let g:loaded_perl_provider = 0
+if filereadable(expand("~/.my_nvimrc"))
+  source $HOME/.my_nvimrc
+endif

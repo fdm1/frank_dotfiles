@@ -1,6 +1,0 @@
-[user]
-	name = Frank Massi
-	email = frankmassi@gmail.com
-
-[core]
-  sshCommand = "ssh -i ~/.ssh/gmail_git_id_rsa"

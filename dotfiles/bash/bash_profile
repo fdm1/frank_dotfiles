@@ -44,17 +44,11 @@ if [ -d $SHELL_COMPLETION_DIR ]; then
   fi
 fi
 
-
-
-
-
-
-
-if [ -e "$HOME/.my_envvars" ]; then
-  source "$HOME/.my_envvars"
+if [ -e "$HOME/.bash_aliases" ]; then
+  source "$HOME/.bash_aliases"
 fi
 
-if [ -e "$HOME/.my_envvars" ]; then
-  source "$HOME/.my_envvars"
+if [ -e "$HOME/.shell_functions" ]; then
+  source "$HOME/.shell_functions"
 fi
 

@@ -1,10 +1,22 @@
 ---
-- name: Tmux Config Setup | Source system-specific tmux configs
-  blockinfile:
-    path: ~/.my_tmux.conf
-    marker: "# {mark} ANSIBLE - SOURCE tmux.conf FOR {{ tmux_item }}"
-    block: |
-      if-shell 'test -f {{ dotfiles_base_dir }}/resources/tmux/{{ tmux_item }}/tmux.conf' 'source {{ dotfiles_base_dir }}/resources/tmux/{{ tmux_item }}/tmux.conf'
-  loop: "{{ systems_to_include }}"
-  loop_control:
-    loop_var: tmux_item
+- name: Symlink tmux files
+  include_tasks: config_files/symlink_files.yml
+  vars:
+    config_type: tmux
+    dest_dir: $HOME
+    dest_prefix: "."
+#
+# - name: Tmux Config Setup | Find tmux files to symlink
+#   find:
+#     paths: "{{ dotfiles_base_dir }}/dotfiles/tmux"
+#   register: find_tmux_files
+# - name: Debug | Display tmux files
+#   debug:
+#     msg: "tmux_files: {{ find_tmux_files.files }}"
+# - name: Tmux Config Setup | Symlink all tmux files
+#   file:
+#     force: true
+#     src: "{{ item.path }}"
+#     dest: "$HOME/.{{ item.path | basename }}"
+#     state: link
+#   with_items: "{{ find_tmux_files.files }}"

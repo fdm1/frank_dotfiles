@@ -1,2 +1,0 @@
-#! /bin/bash
-. ~/code/root-infrastructure/sbin/tf-helpers.sh

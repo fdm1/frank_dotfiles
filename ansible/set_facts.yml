@@ -5,7 +5,7 @@
 
 - name: Fact Gathering | Initialize systems_to_include fact
   set_fact:
-    systems_to_include: "{{ ['base', os ] }}"
+    systems_to_include: "{{ [os] }}"
 
 - name: Fact Gathering | Register root repo directory
   command: pwd
@@ -25,7 +25,26 @@
     systems_to_include: "{{ systems_to_include + ['wsl'] }}"
   when: wsl_check_cmd.rc == 0
 
-# TODO: macosx is not only work
+
+- name: Fact Gathering | Check if personal macbook
+  stat:
+    path: ~/.is_macosx_personal
+  register: is_macosx_personal
+
+- name: Fact Gathering | Add macosx-personal to systems_to_include if personal macbook
+  set_fact:
+    systems_to_include: "{{ systems_to_include + ['macosx-personal'] }}"
+  when: is_macosx_personal.stat.exists
+
+- name: Fact Gathering | Check if root work computer
+  stat:
+    path: ~/.is_macosx_root
+  register: is_macosx_root
+
+- name: Fact Gathering | Add macosx-root to systems_to_include if root work computer
+  set_fact:
+    systems_to_include: "{{ systems_to_include + ['macosx-root'] }}"
+  when: is_macosx_root.stat.exists
 
 - name: Fact Gathering | Display OS
   debug:

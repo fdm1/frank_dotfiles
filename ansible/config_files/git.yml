@@ -1,11 +1,15 @@
 ---
-- name: Git Config Setup | Source system-specific dotfiles
-  blockinfile:
-    path: ~/.my_gitconfig
-    marker: "# {mark} ANSIBLE - SOURCE gitconfig FOR {{ git_item }}"
-    block: |
-      [include]
-        path = {{ dotfiles_base_dir }}/resources/git/{{ git_item }}/gitconfig
-  loop: "{{ systems_to_include }}"
-  loop_control:
-    loop_var: git_item
+- name: Git Config Setup | Find git files to symlink
+  find:
+    paths: "{{ dotfiles_base_dir }}/dotfiles/git"
+  register: find_git_files
+- name: Debug | Display git files
+  debug:
+    msg: "git_files: {{ find_git_files.files }}"
+- name: Git Config Setup | Symlink all git files
+  file:
+    force: true
+    src: "{{ item.path }}"
+    dest: "$HOME/.{{ item.path | basename }}"
+    state: link
+  with_items: "{{ find_git_files.files }}"

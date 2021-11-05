@@ -1,22 +1,15 @@
 ---
-- name: Bash Config Setup | Add bin scripts to PATH
-  blockinfile:
-    path: ~/.my_profile
-    marker: "# {mark} ANSIBLE - ADD {{ bash_bin_scripts_item }} BIN SCRIPTS TO PATH"
-    block: |
-      export PATH=$PATH:{{ dotfiles_base_dir }}/resources/bin_scripts/{{ bash_bin_scripts_item }}/
-  loop: "{{ systems_to_include }}"
-  loop_control:
-    loop_var: bash_bin_scripts_item
-
-- name: Bash Config Setup | Source system-specific dotfiles
-  blockinfile:
-    path: ~/.my_profile
-    marker: "# {mark} ANSIBLE - SOURCE DOTFILES FOR {{ bash_source_item }}"
-    block: |
-      if [ -d "{{ dotfiles_base_dir }}/resources/bash/{{ bash_source_item }}" ] ; then
-        for i in {{ dotfiles_base_dir }}/resources/bash/{{ bash_source_item }}/*; do source $i; done
-      fi
-  loop: "{{ systems_to_include }}"
-  loop_control:
-    loop_var: bash_source_item
+- name: Bash Config Setup | Find git files to symlink
+  find:
+    paths: "{{ dotfiles_base_dir }}/dotfiles/bash"
+  register: find_bash_files
+- name: Debug | Display bash files
+  debug:
+    msg: "bash_files: {{ find_bash_files.files }}"
+- name: Bash Config Setup | Symlink all bash files
+  file:
+    force: true
+    src: "{{ item.path }}"
+    dest: "$HOME/.{{ item.path | basename }}"
+    state: link
+  with_items: "{{ find_bash_files.files }}"

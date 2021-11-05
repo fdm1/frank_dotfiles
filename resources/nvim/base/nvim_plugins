@@ -1,9 +1,0 @@
-Plug 'benmills/vimux'
-Plug 'jph00/swift-apple'
-
-Plug 'ajh17/VimCompletesMe'
-Plug 'Valloric/YouCompleteMe'
-Plug 'moll/vim-node'
-Plug 'flazz/vim-colorschemes'
-Plug 'ThePrimeagen/vim-be-good'
-
