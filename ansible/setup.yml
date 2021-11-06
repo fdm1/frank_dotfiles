@@ -2,8 +2,25 @@
 - name: Setup | Setup playbook
   hosts: all
   tasks:
-  - name: Setup | Set facts
-    include_tasks: set_facts.yml
+  - name: Fact Gathering | Register root repo directory
+    command: pwd
+    register: ansible_dir_cmd
+  - name: Fact Gathering | Set root_dir fact
+    set_fact:
+      dotfiles_base_dir: "{{ ansible_dir_cmd.stdout.split('/')[:-1] | join('/') }}"
 
-  - name: Setup | Setup config files
-    include_tasks: "config_files/start.yml"
+  - name: Config Files | Symlink all dotfiles
+    include_tasks: symlink_files.yml
+    vars:
+      config_type: "{{ config_item.config_type }}"
+      dest_prefix: "{{ config_item.dest_prefix if config_item.dest_prefix is defined else '.' }}"
+    loop:
+      - config_type: bash
+      - config_type: tmux
+      - config_type: git
+      - config_type: nvim
+        dest_prefix: .config/nvim/
+    loop_control:
+      loop_var: config_item
+
+  - include_tasks: nvim.yml
