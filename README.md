@@ -29,6 +29,8 @@ Limitations / TODOS
   - git-bash-prompt
   - tmux
   - bash
+  - rvm
+
 - add Base init.vim file
 - setup vim plug autoload stuff
 
