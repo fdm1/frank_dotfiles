@@ -3,6 +3,7 @@
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/shims:$PATH"
+export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$PATH
 
 # eval "$(pyenv init -)"
 export BASH_SILENCE_DEPRECATION_WARNING=1

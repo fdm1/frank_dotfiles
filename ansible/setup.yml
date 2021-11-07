@@ -24,3 +24,4 @@
       loop_var: config_item
 
   - include_tasks: nvim.yml
+  - include_tasks: install_packages.yml

@@ -23,15 +23,6 @@ Limitations / TODOS
 - This currently does not install any packages. It assumes you have nvim, git, and tmux already installed. That will come later.
 
 - install homebrew
-- brew install/update
-  - neovim
-  - pyenv
-  - git-bash-prompt
-  - tmux
-  - bash
-  - npm 
-  - cmake python mono go nodejs
-  - 
 
 - install other things
   - rvm (via curl)

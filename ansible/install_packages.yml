@@ -1,0 +1,21 @@
+---
+
+- name: Packages | Update homebrew
+  community.general.homebrew:
+    update_homebrew: yes
+    upgrade_all: yes
+
+- name: Packages | Brew install things
+  community.general.homebrew:
+    name:
+      - neovim
+      - pyenv
+      - bash-git-prompt
+      - tmux
+      - bash
+      - npm
+      - cmake
+      - go
+      - nodejs
+    state: latest
+
