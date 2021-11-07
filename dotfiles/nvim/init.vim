@@ -248,8 +248,13 @@ set rnu
 " Alacritty stuff?
 hi! Normal ctermbg=NONE guibg=NONE 
 hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
+"
+let g:loaded_python_provider = 0
+let g:loaded_perl_provider = 0
+let g:python3_host_prog = "$HOME/.pyenv/shims/python3.9"
 " ###### PERSONAL CONFIG ######
 
 if filereadable(expand("~/.my_nvimrc"))
   source $HOME/.my_nvimrc
 endif
+

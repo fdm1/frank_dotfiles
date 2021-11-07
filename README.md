@@ -29,7 +29,24 @@ Limitations / TODOS
   - git-bash-prompt
   - tmux
   - bash
-  - rvm
+  - npm 
+  - cmake python mono go nodejs
+  - 
+
+- install other things
+  - rvm (via curl)
+  - ruby 3.0.2 (via rvm)
+  - ruby 2.7.4 (via rvm)
+  - neovim gem (globally)
+  - yarn (via npm) 
+  - npm neovim (via npm)
+  - python 3.9.7 via pyenv (PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.9.7 )
+  - pip3.9 install neovim
+  - cd ~/.config/nvim/plugged/YouCompleteMe && python3.9 install.py
+  - python 3.10.0 via pyenv (PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.0 )
+  - pip3.10 install neovim
+  - pyenv global 3.10.0
+  - cd ~/.config/nvim/plugged/YouCompleteMe && python3.10 install.py
 
 - add Base init.vim file
 - setup vim plug autoload stuff
