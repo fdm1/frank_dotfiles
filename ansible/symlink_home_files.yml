@@ -1,12 +1,12 @@
 ---
 - name: "Config Setup | Find {{ config_type }} files to symlink"
   find:
-    paths: "{{ dotfiles_base_dir }}/dotfiles/{{ config_type }}"
+    paths: "{{ dotfiles_dir }}/{{ config_type }}"
   register: find_files
 - name: "Config Setup | Symlink all {{ config_type }} files"
   file:
     force: true
     src: "{{ item.path }}"
-    dest: "$HOME/{{ dest_prefix }}{{ item.path | basename }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item.path | basename }}"
     state: link
   with_items: "{{ find_files.files }}"

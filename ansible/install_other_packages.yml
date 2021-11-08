@@ -1,0 +1,12 @@
+---
+
+- name: Packages | Update homebrew
+  homebrew:
+    update_homebrew: yes
+    upgrade_all: yes
+
+- name: Packages | Brew install things
+  homebrew:
+    name: "{{ packages_to_install }}"
+    state: latest
+
