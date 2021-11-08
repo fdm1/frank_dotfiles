@@ -1,6 +1,41 @@
 ---
-- name: Nvim | Install plugins
-  command: nvim +PlugInstall +PlugClean! +UpdateRemotePlugins +qall
+- homebrew_tap:
+    name: neovim/neovim
+- name: install neovim
+  homebrew:
+    name: neovim
+    upgrade_options: "--with-python"
+    state: latest
+- name: symlink nvim config
+  file:
+    src: "{{ dotfiles_dir }}/nvim"
+    dest: "{{ config_dir }}/nvim"
+    state: link
+    force: true
+- name: nvim autoload dir
+  file:
+    path: "{{ config_dir }}/nvim/autoload"
+    state: directory
+- name: nvim plugged dir
+  file:
+    path: "{{ config_dir }}/nvim/plugged"
+    state: directory
+- name: get plug.vim
+  get_url:
+    url: "{{ neovim_vim_plug_src }}"
+    dest: "{{ dotfiles_dir }}/nvim/autoload"
+    force: no
+    mode: 0644
+- name: nvim PlugInstall
+  shell: "nvim +PlugInstall +qall"
   ignore_errors: true
-
-## TODO: setup autoplug
+- name: nvim PlugClean
+  shell: "nvim +PlugClean! +qall"
+  ignore_errors: true
+- name: nvim UpdateRemotePlugins
+  shell: "nvim +UpdateRemotePlugins +qall"
+  ignore_errors: true
+- name: nvim PlugUpdate
+  shell: "nvim +PlugUpdate +qall"
+- name: install YCM
+  shell: "python3.10 {{ config_dir }}/nvim/plugged/YouCompleteMe/install.py"

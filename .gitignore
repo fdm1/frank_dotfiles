@@ -1,3 +1,6 @@
 vim_dotfiles
 intellij-config
 *.retry
+
+dotfiles/nvim/autoload
+dotfiles/nvim/plugged

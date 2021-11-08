@@ -1,0 +1,29 @@
+---
+- stat:
+    path: "{{ vscode_path }}"
+  register: hasvscode
+
+- name: determine if vs code was brew installed
+  shell: brew ls --cask --versions visual-studio-code
+  register: vscode_brew_version
+  ignore_errors: true
+  when: hasvscode.stat.exists
+
+- name: install vs code via brew
+  command: brew install --cask visual-studio-code
+  when: not hasvscode.stat.exists
+
+- name: upgrade vs code via brew
+  command: brew upgrade --cask visual-studio-code
+  when: hasvscode.stat.exists and vscode_brew_version.stdout
+
+- name: install vs code
+  homebrew_cask:
+    name: visual-studio-code
+    state: present
+  when: not hasvscode.stat.exists
+
+- name: install/update marketplace extensions
+  shell: "{{ vscode_binary_path }} --install-extension {{item}}"
+  with_items: "{{ vscode_extensions }}"
+

@@ -1,4 +1,4 @@
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('$HOME/.config/nvim/plugged')
   if !empty(glob("$HOME/.config/nvim/nvim_plugins.vim"))
     source $HOME/.config/nvim/nvim_plugins.vim
   endif

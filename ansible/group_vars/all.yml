@@ -1,0 +1,35 @@
+config_dir: "{{ ansible_env.HOME }}/.config"
+dotfiles_repo_dir: "{{ ansible_env.HOME }}/code/fdm1/frank_dotfiles"
+dotfiles_dir: "{{ dotfiles_repo_dir }}/dotfiles"
+
+neovim_vim_plug_src: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+ruby_versions:
+  - { ruby: 2.7.4, bundler: 2.2.30}
+  - { ruby: 3.0.2, bundler: 2.2.30}
+python_versions:
+  - 3.9.7
+  - 3.10.0
+python_global_version: 3.10.0
+packages_to_install:
+  - bash-git-prompt
+  - tmux
+  - bash
+  - npm
+  - cmake
+  - go
+  - nodejs
+  - gh
+  - awscli
+  - git
+  - ag
+  - jq
+
+vscode_path: "/Applications/Visual\\ Studio\\ Code.app"
+vscode_binary_path: "{{ vscode_path }}/Contents/Resources/app/bin/code"
+vscode_extensions:
+  - ms-azuretools.vscode-docker
+  - malmaud.tmux
+  - vscodevim.vim
+  - xadillax.viml
+  - ms-vscode-remote.remote-containers
+  - ms-python.python
