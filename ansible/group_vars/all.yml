@@ -23,6 +23,8 @@ packages_to_install:
   - git
   - ag
   - jq
+  - docker
+  - docker-compose
 
 vscode_path: "/Applications/Visual\\ Studio\\ Code.app"
 vscode_binary_path: "{{ vscode_path }}/Contents/Resources/app/bin/code"
