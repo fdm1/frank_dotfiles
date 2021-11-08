@@ -1,0 +1,18 @@
+---
+- name: install pyenv
+  homebrew:
+    name: pyenv
+    state: present
+    update_homebrew: true
+  register: install_pyenv
+- name: update homebrew for latest pyenv
+  homebrew:
+    name: pyenv
+    state: latest
+    update_homebrew: true
+  register: brew_update_pyenv
+- name: Install python versions
+  shell: "pyenv install --skip-existing {{ item }}"
+  with_items: "{{ python_versions }}"
+- name: Set default python version
+  shell: "pyenv global {{ python_global_version }}"

@@ -5,7 +5,7 @@
       - rbenv
       - ruby-build
     state: present
-    update_homebrew: True
+    update_homebrew: true
   register: install_rbenv
 - name: update homebrew for latest rbenv ruby-build
   homebrew:
@@ -13,15 +13,15 @@
       - rbenv
       - ruby-build
     state: latest
-    update_homebrew: True
+    update_homebrew: true
   register: brew_update_rbenv
 
 - name: run rbenv rehash when ruby or rbenv has updated
   shell: rbenv rehash
   when: install_rbenv.changed or brew_update_rbenv.changed
 
-# - name: Install ruby versions and ruby packages
-#   shell: |
-#     RUBY_CONFIGURE_OPTS="--with-readline-dir=$(brew --prefix readline)" rbenv install --skip-existing {{ item['ruby'] }}
-#     RBENV_VERSION={{ item['ruby'] }} ~/.rbenv/shims/gem install bundler --version {{ item['bundler'] }}
-#   with_items: "{{ ruby_versions }}"
+- name: Install ruby versions and ruby packages
+  shell: |
+    RUBY_CONFIGURE_OPTS="--with-readline-dir=$(brew --prefix readline)" rbenv install --skip-existing {{ item['ruby'] }}
+    RBENV_VERSION={{ item['ruby'] }} ~/.rbenv/shims/gem install bundler --version {{ item['bundler'] }}
+  with_items: "{{ ruby_versions }}"

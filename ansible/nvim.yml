@@ -9,7 +9,7 @@
 - name: symlink nvim config
   file:
     src: "{{ dotfiles_dir }}/nvim"
-    dest: "{{ config_dir }}/nvim" 
+    dest: "{{ config_dir }}/nvim"
     state: link
     force: true
 - name: nvim autoload dir
@@ -28,24 +28,14 @@
     mode: 0644
 - name: nvim PlugInstall
   shell: "nvim +PlugInstall +qall"
-  args:
-    executable: /bin/bash
   ignore_errors: true
 - name: nvim PlugClean
   shell: "nvim +PlugClean! +qall"
-  args:
-    executable: /bin/bash
   ignore_errors: true
 - name: nvim UpdateRemotePlugins
   shell: "nvim +UpdateRemotePlugins +qall"
-  args:
-    executable: /bin/bash
   ignore_errors: true
 - name: nvim PlugUpdate
   shell: "nvim +PlugUpdate +qall"
-  args:
-    executable: /bin/bash
 - name: install YCM
   shell: "python3.10 {{ config_dir }}/nvim/plugged/YouCompleteMe/install.py"
-  args:
-    executabel: /bin/bash

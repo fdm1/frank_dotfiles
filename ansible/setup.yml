@@ -17,6 +17,7 @@
     loop_control:
       loop_var: config_item
 
-  - include_tasks: nvim.yml
   - include_tasks: ruby.yml
+  - include_tasks: python.yml
+  - include_tasks: nvim.yml
   - include_tasks: install_other_packages.yml
