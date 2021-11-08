@@ -23,3 +23,13 @@ packages_to_install:
   - git
   - ag
   - jq
+
+vscode_path: "/Applications/Visual\\ Studio\\ Code.app"
+vscode_binary_path: "{{ vscode_path }}/Contents/Resources/app/bin/code"
+vscode_extensions:
+  - ms-azuretools.vscode-docker
+  - malmaud.tmux
+  - vscodevim.vim
+  - xadillax.viml
+  - ms-vscode-remote.remote-containers
+  - ms-python.python
