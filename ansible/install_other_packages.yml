@@ -7,6 +7,6 @@
 
 - name: Packages | Brew install things
   homebrew:
-    name: "{{ packages_to_install }}"
+    name: "{{ homebrew_packages }}"
     state: latest
 

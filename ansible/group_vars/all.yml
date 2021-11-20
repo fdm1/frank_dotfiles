@@ -10,7 +10,7 @@ python_versions:
   - 3.9.7
   - 3.10.0
 python_global_version: 3.10.0
-packages_to_install:
+homebrew_packages:
   - bash-git-prompt
   - tmux
   - bash

@@ -22,3 +22,4 @@
   - include_tasks: nvim.yml
   - include_tasks: install_other_packages.yml
   - include_tasks: vscode.yml
+  - include_tasks: iterm.yml
