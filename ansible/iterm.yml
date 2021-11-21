@@ -1,7 +1,0 @@
----
-- name: "iTerm | Symlink scripts"
-  file:
-    force: true
-    src: "{{ dotfiles_dir }}/iterm_scripts"
-    dest: "{{ ansible_env.HOME }}/Library/Application Support/iTerm2/Scripts"
-    state: link

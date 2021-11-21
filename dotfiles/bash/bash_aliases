@@ -62,3 +62,4 @@ alias emulator='$ANDROID_HOME/emulator/emulator'
 alias openandroidstudio="aws-login eng && open /Applications/Android\ Studio.app"
 alias openintellijidea="aws-login eng && open /Applications/IntelliJ\ IDEA.app"
 alias rc="bundle exec rails c"
+alias iterm_scripts="cd $HOME/Library/Application\ Support/iTerm2/Scripts"
