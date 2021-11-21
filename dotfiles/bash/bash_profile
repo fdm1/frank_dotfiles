@@ -11,6 +11,7 @@ export PATH=$PATH:$GOPATH/bin
 
 # eval "$(pyenv init -)"
 export BASH_SILENCE_DEPRECATION_WARNING=1
+export EDITOR=vim
 
 # eval "$(rbenv init -)"
 # eval "$(pyenv init -)"
