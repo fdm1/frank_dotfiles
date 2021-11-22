@@ -26,6 +26,8 @@ homebrew_packages:
   - docker
   - docker-compose
   - xcodes
+  - node
+  - watchman
 
 vscode_path: "/Applications/Visual\\ Studio\\ Code.app"
 vscode_binary_path: "{{ vscode_path }}/Contents/Resources/app/bin/code"
@@ -38,5 +40,6 @@ vscode_extensions:
   - ms-python.python
 
 # TODO:
-npm_packages:
+global_npm_packages:
   - yarn
+  - expo-cli
