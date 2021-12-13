@@ -20,6 +20,9 @@ export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+# ruby
+export PATH="$HOME/.rbenv/shims:$PATH"
+
 if [ -e /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
