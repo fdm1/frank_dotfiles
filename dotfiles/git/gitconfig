@@ -56,6 +56,9 @@
 [gpg]
   program=/usr/local/bin/gpg
 
+[includeIf "gitdir:~/code/Provi-Engineering/"]
+  path = .gitconfig.provi
+
 [color]
   ui = auto
 # [alias "push"]
