@@ -19,7 +19,7 @@
 
   - include_tasks: ruby.yml
   - include_tasks: python.yml
-  - include_tasks: nvim.yml
   - include_tasks: install_other_packages.yml
+  - include_tasks: nvim.yml
   - include_tasks: vscode.yml
 

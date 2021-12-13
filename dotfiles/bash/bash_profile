@@ -12,13 +12,21 @@ export PATH=$PATH:$GOPATH/bin
 # eval "$(pyenv init -)"
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export EDITOR=vim
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
 # eval "$(rbenv init -)"
 # eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+if [ -e /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [ -e /opt/homebrew/bin/brew ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 
 PROMPT_USER_AND_HOST='\[\033[01;32m\]\u@\h'

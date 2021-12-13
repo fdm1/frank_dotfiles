@@ -1,7 +1,7 @@
 Install
 -------
 
-Install ansible (however necessary)
+Install ansible (`brew install ansible`)
 
 ```
 ./run_ansible.sh
@@ -21,7 +21,9 @@ TODOS
 - install homebrew
 - install other things
   - neovim gem (globally)
-  - yarn (via npm) 
+  - yarn (via npm)
   - npm neovim (via npm)
 
-- Separate `macosx` OS with `root` so I can have personal and work-specific mac configs
+- ensure PYTHON_CONFIGURE_OPTS="--enable-framework" when installing python (for installing youcompleteme)
+- allow xcodes install to fail
+- install neovim stuff (python3.9 package, npm package, ruby gem) so healthcheck is fine
