@@ -28,6 +28,8 @@ homebrew_packages:
   # - xcodes
   - node
   - watchman
+  - ripgrep
+  - fd
 
 vscode_path: "/Applications/Visual\\ Studio\\ Code.app"
 vscode_binary_path: "{{ vscode_path }}/Contents/Resources/app/bin/code"

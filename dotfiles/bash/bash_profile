@@ -12,7 +12,7 @@ export PATH=$PATH:$GOPATH/bin
 # eval "$(pyenv init -)"
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export EDITOR=vim
-export PYTHON_CONFIGURE_OPTS="--enable-framework"
+# export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
 # eval "$(rbenv init -)"
 # eval "$(pyenv init -)"
@@ -78,3 +78,6 @@ if [ -e "$HOME/.machine_specific_bash_config" ]; then
   source "$HOME/.machine_specific_bash_config"
 fi
 
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

@@ -4,6 +4,9 @@ call plug#begin('$HOME/.config/nvim/plugged')
   endif
 call plug#end()
 
+lua require("fdm1")
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+
 set dir=/tmp//
 set hidden
 set ignorecase
@@ -20,53 +23,16 @@ set clipboard=unnamed
 set modelines=0
 set nomodeline
 
-autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
-autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 autocmd QuickFixCmdPost *grep* cwindow
 
 " trailing whitespace
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
 highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd FileType javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
-autocmd FileType ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
-
-function! ClearTerminalTransform(cmd) abort
-  return 'clear;'.a:cmd
-endfunction
-
-colorscheme Tomorrow-Night
-
 imap <C-L> <SPACE>=><SPACE>
 
-nmap <silent> <LocalLeader>ff :CtrlP<CR>
-nmap <silent> <LocalLeader>gw :Ggrep <cword><CR>
-nmap <silent> <LocalLeader>na :ALEToggle<CR>
-nmap <silent> <LocalLeader>nf :NERDTreeFind<CR>
-nmap <silent> <LocalLeader>ng :GitGutterToggle<CR>
-nmap <silent> <LocalLeader>nh :nohls<CR>
-nmap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
-nmap <silent> <LocalLeader>n<SPACE> :highlight clear ExtraWhitespace<CR>
-nmap <silent> <LocalLeader><SPACE> :highlight ExtraWhitespace ctermbg=red guibg=red<CR>
-nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=neoterm<CR>
-nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=neoterm<CR>
-nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=neoterm<CR>
-nmap <silent> <LocalLeader>tt :TagbarToggle<CR>
-nmap <silent> <LocalLeader>tf :TagbarOpen fj<CR>
-nmap <silent> <LocalLeader>tc :TagbarClose<CR>
-nmap <silent> <LocalLeader>p :Files<CR>
-nmap <silent> <LocalLeader>bi :T bi<CR>
-nmap <silent> <LocalLeader>bf :exec 'T '.getline('.')<CR>
-nmap <silent> <LocalLeader>bl :T !!<CR>
-nmap <silent> <LocalLeader>uf :T untilfail !!<CR>
-vmap <silent> <LocalLeader>bf y:T <C-R>"<CR>
-nmap <silent> <LocalLeader>ss :T ss<CR>
-vmap <silent> <LocalLeader>ss y:T ss <C-R>"<CR>
 nnoremap <LocalLeader>* :keepjumps normal! #*<CR>
 nnoremap <LocalLeader># :keepjumps normal! *#<CR>
-nmap <silent> <LocalLeader>o "zy<C-G> 0vt:"ay:Gbrowse <C-R>=ChooseRepo()<CR><CR>
 
 
 " remove whitespace
@@ -88,173 +54,30 @@ tnoremap <Esc> <C-\><C-n>:q!<CR>
 
 let g:neoterm_default_mod = 'rightbelow'
 let g:neoterm_size = '20'
+
+function! ClearTerminalTransform(cmd) abort
+  return 'clear;'.a:cmd
+endfunction
+
 let g:test#custom_transformations = {'clear': function('ClearTerminalTransform')}
 let g:test#transformation = 'clear'
-
-" Allows Ctrl-P to find hidden files like .env
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_files = 40000
 
 " Allows javascript tests to run
 let test#javascript#mocha#executable = 'yarn test:single'
 let test#javascript#jest#executable = 'yarn test:single'
 
-" File and folder CtrlP exclusions. See https://github.com/kien/ctrlp.vim
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|node_modules$\|Pods$\|build$\|public/packs$',
-  \ }
-
-let g:wordmotion_prefix = '<LocalLeader>'
-let g:wordmotion_mappings = {
-\ 'b' : '<LocalLeader>bb',
-\ }
-
-" Sort tags in order of appearance by default
-let g:tagbar_sort = 0
-
-" ###### ALE ######
-
-" when to lint
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_filetype_changed = 1
-
-" how to lint
-let g:ale_linters = {'ruby': ['rubocop'], 'javascript': ['eslint']}
-
-" add sign column emoticons
-let g:ale_sign_error = 'e'
-let g:ale_sign_warning = 'w'
-
-" message format
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-" always show the sign column
-let g:ale_sign_column_always = 1
-let g:ale_set_higlights = 1
-
-" what to fix and how
-let g:ale_fixers = {
-\  'javascript': ['eslint'],
-\  'ruby': ['rubocop']
-\}
-
-" fix on file save
-let g:ale_fix_on_save = 1
-" use bundler to allow rubocop to access project gems for linting
-let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
-
-" reset sign column background colors
-highlight link ALEError SignColumn
-highlight link ALEWarning SignColumn
-highlight link ALEErrorSign SignColumn
-highlight link ALEWarningSign SignColumn
-
-" faster fzf fuzzy find respecting gitignore
-let $FZF_DEFAULT_COMMAND = '((git ls-tree -r --name-only HEAD; git ls-files -o --exclude-standard) || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
-
-" disable git gutter by default
-let g:gitgutter_enabled = 0
-
-" ignore certain filetypes in NERDTree
-let NERDTreeIgnore=['\.tfplan$']
-
-
-map <silent> <LocalLeader>ag :Ag<CR>
 map <silent> <LocalLeader>cc :TComment<CR>
 map <silent> <LocalLeader>uc :TComment<CR>
-map <silent> <leader>ff :Files<CR>
 map <silent> <leader>rn :set rnu!<CR>
-
-" tmux-ify test runners
-nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=vimux<CR>
-nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=vimux<CR>
-nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=vimux<CR>
-
-" format python files with black if its installed in a local pipenv
-if filereadable('Pipfile.lock')
-  let black = system('grep \"black\" Pipfile.lock -q')
-  if v:shell_error == 0
-    let g:ale_fixers['python'] = ['black']
-    let g:ale_python_black_auto_pipenv = 1
-  endif
-end
-
-" Alias commands for fat-fingering
-fun! SetupCommandAlias(from, to)
-  exec 'cnoreabbrev <expr> '.a:from
-        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
-        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfun
-call SetupCommandAlias("W","w")
-
-let NERDTreeIgnore=['\.pyc$', '\.o$', '\.class$', '\.lo$', 'tmp', '\.tfplan$']
-
-au BufRead,BufNewFile Podfile,*.podspec setfiletype ruby
-au BufRead,BufNewFile .*vim* setfiletype vim
-
-" Zoom / Restore window.
-function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nmap <silent> <LocalLeader>zz :ZoomToggle<CR>
-
-
-" You Complete Me
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-let g:ycm_max_diagnostics_to_display=0
-" DEBUG STUFFS
-let g:ycm_server_keep_logfiles = 1
-let g:ycm_server_log_level = 'debug'
-let g:ycm_warning_symbol = '.'
-let g:ycm_error_symbol = '..'
-let g:ycm_server_use_vim_stdout = 1
-
-" Autocompletion
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-autocmd BufEnter *.tsx set filetype=typescript
-" colorscheme dim
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-" fixes glitch? in colors when using vim with tmux
-set background=dark
-set t_Co=256
-set termguicolors
-
 " Enable hybrid relative numbers by default
 set rnu
 
-" Alacritty stuff?
-hi! Normal ctermbg=NONE guibg=NONE 
-hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
-"
-let g:loaded_python_provider = 0
-let g:loaded_perl_provider = 0
-let g:python3_host_prog = "$HOME/.pyenv/shims/python3.9"
 " ###### PERSONAL CONFIG ######
 
 if filereadable(expand("~/.my_nvimrc"))
   source $HOME/.my_nvimrc
 endif
-

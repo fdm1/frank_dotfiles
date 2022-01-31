@@ -37,5 +37,7 @@
   ignore_errors: true
 - name: nvim PlugUpdate
   shell: "nvim +PlugUpdate +qall"
-- name: install YCM
-  shell: "python3.10 {{ config_dir }}/nvim/plugged/YouCompleteMe/install.py"
+# - name: install YCM
+#   shell: "python3.10 {{ config_dir }}/nvim/plugged/YouCompleteMe/install.py"
+#   # TODO:
+#     - curl -o ~/Library/Fonts/codicon.ttf https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.ttf
