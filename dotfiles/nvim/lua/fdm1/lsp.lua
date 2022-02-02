@@ -18,6 +18,12 @@ lspkind.init({
     preset = 'codicons',
 })
 
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+local codicons_exist = file_exists(os.getenv("HOME") .. "/Library/Fonts/codicon.ttf")
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -34,7 +40,7 @@ cmp.setup({
 
   formatting = {
     format = function(entry, vim_item)
-      vim_item.kind = lspkind.symbol_map[vim_item.kind]
+      if codicons_exist then vim_item.kind = lspkind.symbol_map[vim_item.kind] end
       local menu = source_mapping[entry.source.name]
       vim_item.menu = menu
       return vim_item
