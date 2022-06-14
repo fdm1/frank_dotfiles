@@ -3,6 +3,7 @@
     name: neovim/neovim
 - name: install neovim
   homebrew:
+    path: "{{ homebrew_path }}"
     name: neovim
     upgrade_options: "--with-python"
     state: latest

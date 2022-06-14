@@ -19,6 +19,7 @@
 
 - name: install vs code
   homebrew_cask:
+    path: "{{ homebrew_path }}"
     name: visual-studio-code
     state: present
   when: not hasvscode.stat.exists

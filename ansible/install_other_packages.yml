@@ -2,11 +2,13 @@
 
 - name: Packages | Update homebrew
   homebrew:
+    path: "{{ homebrew_path }}"
     update_homebrew: yes
     upgrade_all: yes
 
 - name: Packages | Brew install things
   homebrew:
+    path: "{{ homebrew_path }}"
     name: "{{ homebrew_packages }}"
     state: latest
 

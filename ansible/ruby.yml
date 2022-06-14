@@ -1,6 +1,7 @@
 ---
 - name: install rbenv
   homebrew:
+    path: "{{ homebrew_path }}"
     name:
       - rbenv
       - ruby-build
@@ -9,6 +10,7 @@
   register: install_rbenv
 - name: update homebrew for latest rbenv ruby-build
   homebrew:
+    path: "{{ homebrew_path }}"
     name:
       - rbenv
       - ruby-build

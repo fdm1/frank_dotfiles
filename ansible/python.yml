@@ -2,12 +2,14 @@
 - name: install pyenv
   homebrew:
     name: pyenv
+    path: "{{ homebrew_path }}"
     state: present
     update_homebrew: true
   register: install_pyenv
 - name: update homebrew for latest pyenv
   homebrew:
     name: pyenv
+    path: "{{ homebrew_path }}"
     state: latest
     update_homebrew: true
   register: brew_update_pyenv
