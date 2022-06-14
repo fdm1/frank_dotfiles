@@ -16,8 +16,6 @@ Requires:
 TODOS
 -------------------
 
-- This currently does not install any packages. It assumes you have nvim, git, and tmux already installed. That will come later.
-
 - install homebrew
 - install other things
   - neovim gem (globally)

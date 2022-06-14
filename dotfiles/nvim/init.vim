@@ -4,6 +4,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   endif
 call plug#end()
 
+
+" TODO: only require fdm1 if plug plugins are not empty
 lua require("fdm1")
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
