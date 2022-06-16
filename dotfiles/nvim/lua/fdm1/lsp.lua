@@ -14,8 +14,8 @@ local source_mapping = {
 
 local lspkind = require("lspkind")
 lspkind.init({
-    with_text = true,
-    preset = 'codicons',
+    mode = "symbol_text",
+    preset = "codicons",
 })
 
 function file_exists(name)
