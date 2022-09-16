@@ -56,9 +56,6 @@
 [gpg]
   program=/usr/local/bin/gpg
 
-[includeIf "gitdir:~/code/Provi-Engineering/"]
-  path = .gitconfig.provi
-
 [color]
   ui = auto
 # [alias "push"]
@@ -71,3 +68,11 @@
   lineNumber = true
 [init]
 	defaultBranch = main
+
+
+# work stuff
+[includeIf "gitdir:~/code/Provi-Engineering/"]
+  path = .gitconfig.provi
+# To be able to call git in dockerized dev env
+[safe]
+	directory = /git/provi
