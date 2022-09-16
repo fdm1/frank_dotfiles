@@ -83,3 +83,6 @@ set rnu
 if filereadable(expand("~/.my_nvimrc"))
   source $HOME/.my_nvimrc
 endif
+
+" \cb copies relative path of current file to the clipboard
+:nnoremap <Leader>cf :let @+=expand('%')<CR>
