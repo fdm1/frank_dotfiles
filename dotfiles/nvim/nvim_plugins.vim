@@ -40,6 +40,8 @@ Plug 'vim-airline/vim-airline', {'tag': 'v0.8'}
 Plug 'vim-airline/vim-airline-themes', {'commit': '13bad30'}
 
 
+Plug 'github/copilot.vim'
+
 " UNUSED
 " Plug 'jph00/swift-apple'
 
