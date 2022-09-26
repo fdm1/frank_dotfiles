@@ -84,5 +84,10 @@ if filereadable(expand("~/.my_nvimrc"))
   source $HOME/.my_nvimrc
 endif
 
-" \cb copies relative path of current file to the clipboard
-:nnoremap <Leader>cf :let @+=expand('%')<CR>
+" \cf copies relative path of current file to the clipboard
+nnoremap <silent> <Leader>cf :let @+=expand('%')<CR>
+
+" the copilot previous overwrites the built-in copilot cancel for now. Can't
+" figure out the meta key on mac iterm
+imap <C-]> <Plug>(copilot-previous)
+imap <C-[> <Plug>(copilot-next)
