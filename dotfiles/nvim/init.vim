@@ -89,5 +89,5 @@ nnoremap <silent> <Leader>cf :let @+=expand('%')<CR>
 
 " the copilot previous overwrites the built-in copilot cancel for now. Can't
 " figure out the meta key on mac iterm
-imap <C-]> <Plug>(copilot-previous)
-imap <C-[> <Plug>(copilot-next)
+" imap <C-]> <Plug>(copilot-previous)
+" imap <C-[> <Plug>(copilot-next)
