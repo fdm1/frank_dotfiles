@@ -1,6 +1,6 @@
 Plug 'benmills/vimux'
-Plug 'jlanzarotta/bufexplorer', {'tag': 'v7.4.6'}
-Plug 'jtratner/vim-flavored-markdown', {'commit': '4a70aa2'}
+Plug 'jlanzarotta/bufexplorer'
+Plug 'jtratner/vim-flavored-markdown'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -19,25 +19,25 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 
-Plug 'scrooloose/nerdtree', {'tag': '5.0.0'}
-Plug 'tomtom/tcomment_vim', {'tag': '3.08'}
-Plug 'tpope/vim-endwise', {'commit': '0067ced'}
-Plug 'tpope/vim-fugitive', {'tag': 'v3.0'}
-Plug 'tpope/vim-rhubarb', {'commit': '75ad917e4978b4620c3b0eff1722880d2d53a9f4'}
+Plug 'scrooloose/nerdtree'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'darrikonn/vim-gofmt'
 
-Plug 'tpope/vim-surround', {'tag': 'v2.1'}
-Plug 'tpope/vim-projectionist', { 'tag': 'v1.3' }
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-projectionist'
 
-Plug 'maxmellon/vim-jsx-pretty', {'tag': 'v3.0.0'}
-Plug 'airblade/vim-gitgutter', { 'commit': 'c2651ae' }
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'airblade/vim-gitgutter'
 
 " Colors and style
 Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 Plug 'jeffkreeftmeijer/vim-dim'
-Plug 'vim-airline/vim-airline', {'tag': 'v0.8'}
-Plug 'vim-airline/vim-airline-themes', {'commit': '13bad30'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 
 Plug 'github/copilot.vim'
