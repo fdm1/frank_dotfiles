@@ -31,7 +31,6 @@ cmp.setup({
     end,
   },
   mapping = {
-    -- TODO: complete with space doesn't do anything.
     -- ctrl+n scrolls down
     -- ctrl+p scrolls up
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),

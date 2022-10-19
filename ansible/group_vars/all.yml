@@ -43,7 +43,6 @@ vscode_extensions:
   - ms-vscode-remote.remote-containers
   - ms-python.python
 
-# TODO:
 global_npm_packages:
   - yarn
   - expo-cli
