@@ -1,18 +1,43 @@
 #! /bin/bash
 
+
+##############
+# Bash stuff
+##############
+
+function toggle_vi_mode () {
+  if [ -n "$VI_MODE" ]; then
+    unset VI_MODE
+    set -o emacs
+  else
+    VI_MODE=1
+    set -o vi
+  fi
+}
+
+##############
+# Git stuff
+##############
+function git_pull() {
+  git pull origin $(git_current_branch)
+}
+
 function git_current_branch () {
   echo "$(git rev-parse --abbrev-ref HEAD)"
 }
 
+function git_push () {
+  git push origin $(git_current_branch)
+}
+
 function git_force_push () {
-  # TODO: make sure not on master or release
+  if [ $(git_current_branch) = "main" ] || [ $(git_current_branch) = "master" ]; then
+    echo "You can't force push to main or master"
+    return 1
+  fi
+
   git push -f origin $(git_current_branch)
 }
-
-function git_pull_current_branch() {
-  git pull origin $(git_current_branch)
-}
-
 
 ###############
 # Rails/Ruby stuff
