@@ -72,8 +72,10 @@ fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash" || true
 
-if [ -e "$HOME/.machine_specific_bash_config" ]; then
-  source "$HOME/.machine_specific_bash_config"
+if [ -d "$HOME/code/fdm1/work_dotfiles" ]; then
+  for file in $HOME/code/fdm1/work_dotfiles/*.sh; do
+    source $file
+  done
 fi
 
 if command -v pyenv 1>/dev/null 2>&1; then
