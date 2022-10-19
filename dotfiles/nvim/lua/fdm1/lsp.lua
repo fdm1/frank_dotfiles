@@ -32,10 +32,10 @@ cmp.setup({
   },
   mapping = {
     -- TODO: complete with space doesn't do anything.
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    -- ctrl+n scrolls down
+    -- ctrl+p scrolls up
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
   },
 
   formatting = {
