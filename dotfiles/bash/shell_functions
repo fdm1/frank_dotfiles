@@ -22,6 +22,8 @@ function git_pull() {
   git pull origin $(git_current_branch)
 }
 
+alias gpull=git_pull
+
 function git_current_branch () {
   echo "$(git rev-parse --abbrev-ref HEAD)"
 }
@@ -29,6 +31,8 @@ function git_current_branch () {
 function git_push () {
   git push origin $(git_current_branch)
 }
+
+alias gpush=git_push
 
 function git_force_push () {
   if [ $(git_current_branch) = "main" ] || [ $(git_current_branch) = "master" ]; then
@@ -38,6 +42,8 @@ function git_force_push () {
 
   git push -f origin $(git_current_branch)
 }
+
+alias gfpush=git_force_push
 
 ###############
 # Rails/Ruby stuff
