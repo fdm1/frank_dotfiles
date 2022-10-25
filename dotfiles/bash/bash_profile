@@ -51,13 +51,18 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# if [ -d $SHELL_COMPLETION_DIR ]; then
-#   if [ `ls -1 $SHELL_COMPLETION_DIR/*.bash 2>/dev/null | wc -l` -gt 0 ]; then
-#     for rcfile in $SHELL_COMPLETION_DIR/*.bash; do
-#       . $rcfile
-#     done
-#   fi
-# fi
+
+SHELL_COMPLETION_DIR=$HOME/.shell_completion
+if [ -z "$ZSH_VERSION" ]; then
+  if [ -d $SHELL_COMPLETION_DIR ]; then
+    if [ `ls -1 $SHELL_COMPLETION_DIR/*.bash 2>/dev/null | wc -l` -gt 0 ]; then
+      for rcfile in $SHELL_COMPLETION_DIR/*.bash; do
+        . $rcfile
+      done
+    fi
+  fi
+fi
+
 
 if [ -e "$HOME/.bash_aliases" ]; then
   source "$HOME/.bash_aliases"

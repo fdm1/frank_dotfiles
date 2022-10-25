@@ -10,3 +10,17 @@
     dest: "{{ ansible_env.HOME }}/.{{ item.path | basename }}"
     state: link
   with_items: "{{ find_files.files }}"
+
+- name: "Config Setup | Ensure shell completion directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.shell_completion"
+    state: directory
+    mode: "0755"
+- name: "Config Setup | Download git bash autocompletion"
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
+    dest: "{{ ansible_env.HOME }}/.shell_completion/git-completion.bash"
+- name: "Config Setup | Download git zsh autocompletion"
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+    dest: "{{ ansible_env.HOME }}/.shell_completion/git-completion.zsh"
