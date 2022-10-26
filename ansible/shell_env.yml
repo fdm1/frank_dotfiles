@@ -1,0 +1,13 @@
+- name: "Shell Env | Ensure shell completion directory exists"
+  ansible.builtin.file:
+    path: "{{ shell_completion_dir }}"
+    state: directory
+    mode: "0755"
+- name: "Shell Env | Download git bash autocompletion"
+  ansible.builtin.get_url:
+    url: "{{ git_bash_completion_src }}"
+    dest: "{{ shell_completion_dir }}/git-completion.bash"
+- name: "Shell Env | Download git zsh autocompletion"
+  ansible.builtin.get_url:
+    url: "{{ git_zsh_completion_src }}"
+    dest: "{{ shell_completion_dir }}/git-completion.zsh"

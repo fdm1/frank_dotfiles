@@ -5,9 +5,14 @@ dotfiles_dir: "{{ dotfiles_repo_dir }}/dotfiles"
 homebrew_path: "/opt/homebrew/bin"
 
 neovim_vim_plug_src: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+
+shell_completion_dir: "{{ ansible_env.HOME }}/.shell_completion"
+git_bash_completion_src:  "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
+git_zsh_completion_src: "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+
 ruby_versions:
-  - { ruby: 2.7.4, bundler: 2.2.30}
-  - { ruby: 3.0.2, bundler: 2.2.30}
+  - { ruby: 2.7.6, bundler: 2.3.22}
+  - { ruby: 3.0.2, bundler: 2.3.22}
 python_versions:
   - 3.9.7
   - 3.10.0
