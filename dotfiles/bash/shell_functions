@@ -55,3 +55,26 @@ function rspec_for_branch() {
 function rubocop_for_branch() {
   bundle exec rubocop $(echo $(git_changed_files))
 }
+
+###############
+# Random stuff
+###############
+
+function listening_on_port() {
+  processes=$(lsof -i :$1 | grep LISTEN)
+  if [ -z "$processes" ]; then
+    echo "Nothing listening on port $1"
+  else
+    echo "lsof output for LISTEN on port $1  (lsof -i :$1 | grep LISTEN):"
+    # echo each item in processes
+    while read -r line; do
+      echo "$line"
+    done <<< "$processes"
+
+    echo
+    pid=$(echo "$processes" | head -n 1 | awk '{print $2}')
+    echo "ps aux output for the first listining PID (ps aux | grep $pid | grep -v grep):"
+    # get the first process id
+    ps aux | grep $pid | grep -v grep
+  fi
+}
