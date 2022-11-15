@@ -25,6 +25,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'darrikonn/vim-gofmt'
+Plug 'leafOfTree/vim-svelte-plugin'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-projectionist'
