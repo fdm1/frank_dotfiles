@@ -12,7 +12,6 @@ autocmd BufEnter *.tsx set filetype=typescript
 
 autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
-autocmd BufNewFile,BufRead *.svelte setlocal filtetype=svelte
 let g:vim_svelte_plugin_use_typescript=1
 
 autocmd FileType javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
