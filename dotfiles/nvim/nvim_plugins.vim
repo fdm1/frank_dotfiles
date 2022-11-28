@@ -1,4 +1,5 @@
-Plug 'benmills/vimux'
+Plug 'preservim/vimux'
+Plug 'vim-test/vim-test'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'jtratner/vim-flavored-markdown'
 Plug 'nvim-lua/lsp_extensions.nvim'

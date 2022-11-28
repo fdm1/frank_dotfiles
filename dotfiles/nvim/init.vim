@@ -37,6 +37,9 @@ imap <C-L> <SPACE>=><SPACE>
 nnoremap <LocalLeader>* :keepjumps normal! #*<CR>
 nnoremap <LocalLeader># :keepjumps normal! *#<CR>
 
+nmap <silent> <LocalLeader>rb :wa <bar> :TestFile -strategy=vimux<CR>
+nmap <silent> <LocalLeader>rf :wa <bar> :TestNearest -strategy=vimux<CR>
+nmap <silent> <LocalLeader>rl :wa <bar> :TestLast -strategy=vimux<CR>
 
 " remove whitespace
 nnoremap <LocalLeader>W :%s/\s\+$//<cr>:let @/=''<CR>
