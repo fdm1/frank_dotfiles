@@ -78,3 +78,25 @@ function listening_on_port() {
     ps aux | grep $pid | grep -v grep
   fi
 }
+
+###############
+# Lint fixers
+###############
+
+function prettier_staged() {
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
+}
+
+function prettier_diff() {
+  DIFF_TARGET=$1
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
+}
+
+function standardrb_staged() {
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
+}
+
+function standardrb_diff() {
+  DIFF_TARGET=$1
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
+}
