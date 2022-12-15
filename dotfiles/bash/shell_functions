@@ -56,6 +56,10 @@ function rubocop_for_branch() {
   bundle exec rubocop $(echo $(git_changed_files))
 }
 
+function kill_rspec() {
+  kill -9 $(ps aux | grep rspec | grep -v grep | awk '{print $2}')
+}
+
 ###############
 # Random stuff
 ###############
