@@ -69,8 +69,8 @@ let g:test#custom_transformations = {'clear': function('ClearTerminalTransform')
 let g:test#transformation = 'clear'
 
 " Allows javascript tests to run
-let test#javascript#mocha#executable = 'yarn test:single'
-let test#javascript#jest#executable = 'yarn test:single'
+" let test#javascript#mocha#executable = 'yarn test:single'
+let test#javascript#jest#executable = 'yarn test'
 
 map <silent> <LocalLeader>cc :TComment<CR>
 map <silent> <LocalLeader>uc :TComment<CR>
