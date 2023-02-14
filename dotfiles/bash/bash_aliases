@@ -59,7 +59,5 @@ alias git_changed_files_and_local="{ git_changed_files & git diff --diff-filter=
 alias be="bundle exec"
 alias bi="bundle install"
 alias emulator='$ANDROID_HOME/emulator/emulator'
-alias openandroidstudio="aws-login eng && open /Applications/Android\ Studio.app"
-alias openintellijidea="aws-login eng && open /Applications/IntelliJ\ IDEA.app"
 alias rc="bundle exec rails c"
 alias iterm_scripts="cd $HOME/Library/Application\ Support/iTerm2/Scripts"
