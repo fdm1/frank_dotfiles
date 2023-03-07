@@ -62,7 +62,7 @@ function kill_rspec() {
 
 function bundle_migrate() {
   bundle install
-  rake db:migrate
+  rake db:migrate:with_data
   RAILS_ENV=test rake db:migrate
 }
 
@@ -100,6 +100,15 @@ function prettier_staged() {
 function prettier_diff() {
   DIFF_TARGET=$1
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
+}
+
+function svelte_check_staged() {
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run svelte-check
+}
+
+function svelte_check_diff() {
+  DIFF_TARGET=$1
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run svelte-check
 }
 
 function standardrb_staged() {
