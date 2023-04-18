@@ -55,6 +55,9 @@ alias ghist="git log --graph --abbrev-commit --pretty=format:'%C(red)%h%C(reset)
 alias git_delete_local_branches="git branch | grep -v 'master\|release\|main' | grep -v '\*' | xargs git branch -D"
 alias git_changed_files="git diff --diff-filter=d --name-only --relative origin..HEAD | sort | uniq"
 alias git_changed_files_and_local="{ git_changed_files & git diff --diff-filter=d --name-only --relative HEAD; } | sort | uniq"
+alias pr_list="gh pr list -A @me"
+alias pr_status="gh pr status"
+alias pr_web="gh pr view -w"
 
 alias be="bundle exec"
 alias bi="bundle install"
