@@ -61,6 +61,11 @@ function kill_rspec() {
 }
 
 function bundle_migrate() {
+  # if package.json exists, run yarn install
+  if [ -f "package.json" ]; then
+    yarn install
+  fi
+
   bundle install
   rake db:migrate:with_data
   RAILS_ENV=test rake db:migrate
