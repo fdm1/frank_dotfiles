@@ -48,14 +48,6 @@ alias gfpush=git_force_push
 ###############
 # Rails/Ruby stuff
 ###############
-function rspec_for_branch() {
-  bundle exec rspec $(echo $(git_changed_files | grep _spec.rb))
-}
-
-function rubocop_for_branch() {
-  bundle exec rubocop $(echo $(git_changed_files))
-}
-
 function kill_rspec() {
   kill -9 $(ps aux | grep rspec | grep -v grep | awk '{print $2}')
 }
@@ -116,6 +108,15 @@ function svelte_check_diff() {
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run svelte-check
 }
 
+function yarn_test_staged() {
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js" | xargs yarn run yarn test
+}
+
+function yarn_test_diff() {
+  DIFF_TARGET=$1
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js" | xargs yarn run yarn test
+}
+
 function standardrb_staged() {
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
 }
@@ -123,4 +124,13 @@ function standardrb_staged() {
 function standardrb_diff() {
   DIFF_TARGET=$1
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
+}
+
+function rspec_staged() {
+  rspec $(git diff --cached --name-only --diff-filter=ACM spec | grep -E '\.(rb)$')
+}
+
+function rspec_diff() {
+  DIFF_TARGET=$1
+  rspec $(git diff --name-only --diff-filter=ACM $DIFF_TARGET spec | grep -E '\.(rb)$')
 }
