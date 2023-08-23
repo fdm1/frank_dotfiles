@@ -91,46 +91,114 @@ function listening_on_port() {
 ###############
 
 function prettier_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$')
+  if [ -z "$files" ]; then
+    echo "No files to prettify"
+    return 0
+  fi
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
 }
 
 function prettier_diff() {
   DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$')
+  if [ -z "$files" ]; then
+    echo "No files to prettify"
+    return 0
+  fi
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
 }
 
 function svelte_check_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$')
+  if [ -z "$files" ]; then
+    echo "No svelte files to check"
+    return 0
+  fi
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run svelte-check
 }
 
 function svelte_check_diff() {
   DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$')
+  if [ -z "$files" ]; then
+    echo "No svelte files to check"
+    return 0
+  fi
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run svelte-check
 }
 
 function yarn_test_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js")
+  if [ -z "$files" ]; then
+    echo "No test files to run"
+    return 0
+  fi
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js" | xargs yarn run yarn test
 }
 
 function yarn_test_diff() {
   DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js")
+  if [ -z "$files" ]; then
+    echo "No test files to run"
+    return 0
+  fi
+
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js" | xargs yarn run yarn test
 }
 
 function standardrb_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to lint"
+    return 0
+  fi
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
 }
 
 function standardrb_diff() {
   DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to lint"
+    return 0
+  fi
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
 }
 
 function rspec_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM spec | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to lint"
+    return 0
+  fi
   rspec $(git diff --cached --name-only --diff-filter=ACM spec | grep -E '\.(rb)$')
 }
 
 function rspec_diff() {
   DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET spec | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to test"
+    return 0
+  fi
   rspec $(git diff --name-only --diff-filter=ACM $DIFF_TARGET spec | grep -E '\.(rb)$')
+}
+
+function all_checks_staged() {
+  prettier_staged
+  svelte_check_staged
+  yarn_test_staged
+  standardrb_staged
+  rspec_staged
+}
+
+function all_checks_diff() {
+  DIFF_TARGET=$1
+  prettier_diff $DIFF_TARGET
+  svelte_check_diff $DIFF_TARGET
+  yarn_test_diff $DIFF_TARGET
+  standardrb_diff $DIFF_TARGET
+  rspec_diff $DIFF_TARGET
 }
