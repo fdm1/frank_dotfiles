@@ -29,6 +29,8 @@ alias pry_neovim="pry -e \"require 'neovim'; client = Neovim.attach_unix('/tmp/n
 # Git stuff
 #################
 alias gs="git status"
+alias gg="git grep"
+alias ggno="git grep --name-only"
 alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
