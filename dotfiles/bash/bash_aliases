@@ -68,3 +68,4 @@ alias bi="bundle install"
 alias emulator='$ANDROID_HOME/emulator/emulator'
 alias rc="bundle exec rails c"
 alias iterm_scripts="cd $HOME/Library/Application\ Support/iTerm2/Scripts"
+alias bm="bundle_migrate"
