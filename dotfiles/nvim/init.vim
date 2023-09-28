@@ -91,6 +91,8 @@ endif
 " \cf copies relative path of current file to the clipboard
 nnoremap <silent> <Leader>cf :let @+=expand('%')<CR>
 
+nnoremap <silent> <Leader>srb :! standardrb --fix %<CR>
+
 " the copilot previous overwrites the built-in copilot cancel for now. Can't
 " figure out the meta key on mac iterm
 " imap <C-]> <Plug>(copilot-previous)
