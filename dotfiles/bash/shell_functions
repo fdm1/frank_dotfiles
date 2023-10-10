@@ -167,6 +167,26 @@ function standardrb_diff() {
   git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$' | xargs bundle exec standardrb --fix
 }
 
+function rubocop_staged() {
+  files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to lint"
+    return 0
+  fi
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(rb)$' | xargs bundle exec rubocop -A
+}
+
+function rubocop_diff() {
+  DIFF_TARGET=$1
+  files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$')
+  if [ -z "$files" ]; then
+    echo "No ruby files to lint"
+    return 0
+  fi
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(rb)$' | xargs bundle exec rubocop -A
+}
+
+
 function rspec_staged() {
   files=$(git diff --cached --name-only --diff-filter=ACM spec | grep -E '\.(rb)$')
   if [ -z "$files" ]; then
@@ -190,7 +210,7 @@ function all_checks_staged() {
   prettier_staged
   svelte_check_staged
   yarn_test_staged
-  standardrb_staged
+  rubocop_staged
   rspec_staged
 }
 
@@ -199,6 +219,6 @@ function all_checks_diff() {
   prettier_diff $DIFF_TARGET
   svelte_check_diff $DIFF_TARGET
   yarn_test_diff $DIFF_TARGET
-  standardrb_diff $DIFF_TARGET
+  rubocop_diff $DIFF_TARGET
   rspec_diff $DIFF_TARGET
 }
