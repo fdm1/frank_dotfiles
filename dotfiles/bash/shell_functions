@@ -53,8 +53,7 @@ function kill_rspec() {
 }
 
 function bundle_migrate() {
-  # if package.json exists, run yarn install
-  if [ -f "package.json" ]; then
+  if [ -f "yarn.lock" ]; then
     yarn install
   fi
 

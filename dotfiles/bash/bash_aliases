@@ -11,6 +11,8 @@ alias ll='ls -alh'
 alias grep='grep --color'
 alias gcloud_ssh="gcloud alpha cloud-shell ssh --ssh-flag=-A"
 alias ports_in_use="sudo lsof -i -P | grep LISTEN"
+alias cddotfiles="cd ~/code/fdm1/frank_dotfiles"
+alias cdworkdotfiles="cd ~/code/fdm1/work_dotfiles"
 
 #################
 # Vim stuff
