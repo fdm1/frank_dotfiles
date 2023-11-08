@@ -95,7 +95,7 @@ function prettier_staged() {
     echo "No files to prettify"
     return 0
   fi
-  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write
 }
 
 function prettier_diff() {
@@ -105,7 +105,7 @@ function prettier_diff() {
     echo "No files to prettify"
     return 0
   fi
-  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write --plugin-search-dir=.
+  git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | xargs yarn run prettier --write
 }
 
 function svelte_check_staged() {
@@ -130,7 +130,7 @@ function svelte_check_diff() {
 function yarn_test_staged() {
   files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js")
   if [ -z "$files" ]; then
-    echo "No test files to run"
+    echo "No JS test files to run"
     return 0
   fi
   git diff --cached --name-only --diff-filter=ACM | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js" | xargs yarn run yarn test
@@ -140,7 +140,7 @@ function yarn_test_diff() {
   DIFF_TARGET=$1
   files=$(git diff --name-only --diff-filter=ACM $DIFF_TARGET | grep -E '\.(svelte|js|jsx|ts|tsx|css|less|scss|json|graphql|md|mdx)$' | grep "spec.js")
   if [ -z "$files" ]; then
-    echo "No test files to run"
+    echo "No JS test files to run"
     return 0
   fi
 
