@@ -47,7 +47,7 @@ alias gfpush=git_force_push
 
 function git_wip () {
   if [ -n "$1" ]; then
-    msg="WIP: $1"
+    msg="WIP: $@"
   else
     msg="WIP"
   fi
