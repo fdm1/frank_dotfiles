@@ -45,6 +45,19 @@ function git_force_push () {
 
 alias gfpush=git_force_push
 
+function git_wip () {
+  if [ -n "$1" ]; then
+    msg="WIP: $1"
+  else
+    msg="WIP"
+  fi
+
+  git add .
+  git commit -m "$msg"
+}
+
+alias gwip=git_wip
+
 ###############
 # Rails/Ruby stuff
 ###############
