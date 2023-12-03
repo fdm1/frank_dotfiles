@@ -52,7 +52,6 @@ function git_wip () {
     msg="WIP"
   fi
 
-  git add .
   git commit -m "$msg"
 }
 
