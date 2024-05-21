@@ -57,6 +57,10 @@ function git_wip () {
 
 alias gwip=git_wip
 
+function pr_number () {
+  echo $(gh pr view | head | grep -E '^number:' | awk '{print $2}')
+}
+
 ###############
 # Rails/Ruby stuff
 ###############
